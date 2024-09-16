@@ -40,3 +40,4 @@ La materia se imparte a razón de 4 horas semanales. La duración total de la mi
   - URL: https://www.campusvdi.es/login/
   - Categoría: ATECA_SANH
   - Usuario (mismo que aeducar) y contraseña
+- Debes tener cuenta en GitHub (github.com)
