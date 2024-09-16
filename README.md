@@ -32,3 +32,11 @@ La materia se imparte a razón de 4 horas semanales. La duración total de la mi
 - Se precisa ordenador en casa para poder completar y estudiar las prácticas del aula.
 - No se requiere un equipo especialmente potente ni un sistema operativo en particular.
 - Se requiere conexión a internet.
+
+## Además ...
+
+- Necesitas acceso a la plataforma Aeducar: https://santiagohernandez.aeducar.es/
+- Acceso a la plataforma de escritorios virtuales del Campos Digital de Aragón: 
+  - URL: https://www.campusvdi.es/login/
+  - Categoría: ATECA_SANH
+  - Usuario (mismo que aeducar) y contraseña
