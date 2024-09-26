@@ -4,6 +4,10 @@ Esta documentación pretende ser la guía para seguir el módulo de Despliegue d
 
 La materia se imparte a razón de 4 horas semanales. La duración total de la misma es de 84 horas.
 
+- Tienes la versión en formato GitBook aquí: [https://rcabeza.gitbook.io/daw](https://rcabeza.gitbook.io/daw)
+- Tienes el repositorio GitHub con el código fuente aquí: [https://github.com/rafacabeza/daw](https://github.com/rafacabeza/daw)
+
+
 ## Unidades didácticas
 
 1. Documentación y sistemas de control de versiones.
