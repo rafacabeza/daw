@@ -8,6 +8,6 @@
 
 ## Documentación y Control de versiones
 
+* [GIT](documentacion/git.md)
 * [Documentación](documentacion/markdown.md)
-* [Documentación](documentacion/git.md)
 
