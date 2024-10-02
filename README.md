@@ -23,8 +23,8 @@ La materia se imparte a razón de 4 horas semanales. La duración total de la mi
   1. La evaluación se basa en:
       - Ejercicios prácticos. 50%
       - Exámenes. 50%
-  1. La evaluación es continua y acumulativa. Se hace promedio de todo el curso. No hay requisito de aprobar una parte específica.
-  1. Quien no obtenga el aprobado al final de febrero, deberá realizar una prueba teórico-práctica en la fecha que se establezca del mes de marzo.
+  2. La evaluación es continua y acumulativa. Se hace promedio de todo el curso. No hay requisito de aprobar una parte específica.
+  3. Quien no obtenga el aprobado al final de febrero, deberá realizar una prueba teórico-práctica en la fecha que se establezca del mes de marzo.
 
 ## Pérdida del derecho a evaluación continua
 
