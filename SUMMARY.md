@@ -10,5 +10,4 @@
 
 * [GIT](documentacion/git.md)
 * [Markdown](documentacion/markdown.md)
-* [GitBook](documentacion/markdown.md)
-
+* [GitBook](documentacion/gitbook.md)
