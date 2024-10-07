@@ -6,7 +6,7 @@
   - https://github.com/gitbook-ng
   - https://github.com/GitbookIO/gitbook-cli
 
-## Práctica de clase
+## Práctica de clase: GitBook de forma local
 
 El objetivo es instalar un proyecto GitBook local. Ver su estructura y que podemos probarlo sin ayuda de un servidor externo.
 
@@ -49,7 +49,23 @@ npm install @gitbook-ng/gitbook
 * [Capítulo 1](capitulo1.md)
 ```
 
-    - Añadimos un fichero capitulo1.md
+- Añadimos un fichero capitulo1.md
+- Para ver el resultado: `npm run serve`. Ya podemos visitar `http://localhost:4000`
+- Para generar el sitio estático: `npm run build`
 
-    - Para ver el resultado: `npm run serve`
-    - Para generar el sitio estático: `npm run build`
+
+## Práctica de clase: GitBook en gitbook.com
+
+- Crea una carpeta local:
+    - Nombre de la carpeta: `pruebagitbook`
+    - Conviértela en repositorio git: `git init`
+    - Añade los ficheros del ejercicio anterior: README.md, SUMMARY.md, capitulo1.md
+    - Haz un commit inicial con ese contenido.
+- Crea un repositorio en github.com:
+    - Nombre: pruebagitbook
+    - Sigue los pasos necesarios para subir el contenido de  `pruebagitbook`
+- Regístrate como usuario de gitbook.com
+- Añade un sitio `pruebagitbook`
+- Vínculalo al contenido de nuestro repositorio github.com (pruebagitbook).
+- Publica el sitio.
+- Modifica el contenido local. Haz nuevos commits y súbelos a github. Comprueba que el contenido de gitbook.com se actualiza tras unos segundos
