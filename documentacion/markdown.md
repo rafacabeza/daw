@@ -6,3 +6,9 @@ Enlaces donde consultar la sintáxis:
 
 - https://markdown.es/
 - https://es.wikipedia.org/wiki/Markdown
+
+
+Curiosidad. ¿Cómo se da formato al texto en whatsapp? ¿Será markdown?
+
+- El formato de texto en whatsapp usa una variante propia de Markdown. 
+- Podéis echar un vistazo  [aquí](https://faq.whatsapp.com/539178204879377/?cms_platform=web&locale=es_LA)
