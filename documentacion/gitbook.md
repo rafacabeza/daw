@@ -56,16 +56,41 @@ npm install @gitbook-ng/gitbook
 
 ## Práctica de clase: GitBook en gitbook.com
 
+Vamos a crear una documentación en GitBook.com. Dicho espacio va a estar sincronizado con un repositorio de GitHub. El contenido que editemos localmente lo subiremos a GitHub y nuestro documentación en GitBook se sincronizará en segundos.
+
+Sigue estas instrucciones para llevarlo a cabo:
+
 - Crea una carpeta local:
-    - Nombre de la carpeta: `pruebagitbook`
-    - Conviértela en repositorio git: `git init`
-    - Añade los ficheros del ejercicio anterior: README.md, SUMMARY.md, capitulo1.md
-    - Haz un commit inicial con ese contenido.
-- Crea un repositorio en github.com:
-    - Nombre: pruebagitbook
-    - Sigue los pasos necesarios para subir el contenido de  `pruebagitbook`
-- Regístrate como usuario de gitbook.com
-- Añade un sitio `pruebagitbook`
-- Vínculalo al contenido de nuestro repositorio github.com (pruebagitbook).
-- Publica el sitio.
-- Modifica el contenido local. Haz nuevos commits y súbelos a github. Comprueba que el contenido de gitbook.com se actualiza tras unos segundos
+  - Nombre de la carpeta: `pruebagitbook`
+  - Conviértela en repositorio git: `git init`
+  - Añade los ficheros del ejercicio anterior: README.md, SUMMARY.md, capitulo1.md
+  - Haz un commit inicial con ese contenido.  
+- Ya tenemos un contenido inicial. Este contenido lo vamos a subir a Github.
+  - Crea un repositorio en github.com:
+  - Nombre: pruebagitbook
+  - Sigue los pasos necesarios para subir el contenido de  `pruebagitbook`. Según lo hablado en clase, puedes optar por usar una rama _main_ o _master_.
+- Ahora vamos a crear un sitio en GitBook.com. Lo vamos a sincronizar con nuestro repositorio GitHub y vamos a hacer que en la sincronización inicial
+  - Regístrate como usuario de [gitbook.com](https://www.gitbook.com/). Tras hacer login llegarás a un sitio semejante a éste.
+![Página de inicio](/assets/gitbook/01.png "Página de inicio")
+  - Añade un sitio. Le llamaremos `pruebagitbook`. 
+  ![Página de inicio](/assets/gitbook/02.png "")
+  ![Página de inicio](/assets/gitbook/03.png "")
+  - Indicaremos que sin contenido. 
+  ![Página de inicio](/assets/gitbook/04.png "")
+  - Podríamos dejarlo para más tarde pero decimos que se publique ya.
+  ![Página de inicio](/assets/gitbook/05.png "")
+  - Ya está creada la documentación en GitBook, pero está vacía. Seguimos ....
+  - Ahora toca vincularlo al contenido de nuestro repositorio github.com (pruebagitbook). Ve al sitio en GitBook.com y pulta el icono de _configure_. A continuación ves varias imágenes que ilustran el proceso de configuración.
+  ![Página de inicio](/assets/gitbook/06.png "")
+  ---
+  ![Página de inicio](/assets/gitbook/07.png "")
+  ---
+  ![Página de inicio](/assets/gitbook/08.png "")
+  ---
+  - Cuando nos pregunte, marcamos que en la sicronización inicial copie el contenido de GitHub sobre el de GitBook, y pulsamos _sync_.
+  ![Página de inicio](/assets/gitbook/09.png "")
+  ---
+  ![Página de inicio](/assets/gitbook/10.png "")
+  - Nuestro sitio web ya estará publicado con el contenido que hemos escrito localmente. De ahí en adelante, todo lo que escirbamos en nuesto repositorio local y subamos a GitHub será volcado en segundos en nuestra documentación GitBook.
+  ![Página de inicio](/assets/gitbook/11.png "")
+  - Prueba que todo funciona. Modifica el contenido local. Haz nuevos commits y súbelos a github. Comprueba que el contenido de gitbook.com se actualiza tras unos segundos.
