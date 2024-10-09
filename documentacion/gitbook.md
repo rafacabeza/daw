@@ -76,9 +76,9 @@ Sigue estas instrucciones para llevarlo a cabo:
 
   - Añade un sitio. Le llamaremos `pruebagitbook`. 
 
-  ![Click nuevo](/assets/gitbook/02.png "")
+  ![Click nuevo y elegimos _docs site_](/assets/gitbook/02.png "")
   
-  ![Elegimos _docs site_](/assets/gitbook/03.png "")
+  ![Ponemos nombre al sitio](/assets/gitbook/03.png "")
 
   - Indicaremos que sin contenido. 
 
@@ -92,15 +92,15 @@ Sigue estas instrucciones para llevarlo a cabo:
   - Ahora toca vincularlo al contenido de nuestro repositorio github.com (pruebagitbook). Ve al sitio en GitBook.com y pulta el icono de _configure_. A continuación ves varias imágenes que ilustran el proceso de configuración.
 
   ![Iniciamos la sincronización en _configure_](/assets/gitbook/06.png "")
-  ---
+
   ![Activamos la sincronización](/assets/gitbook/07.png "")
-  ---
+
   ![Y buscamos nuestra cuenta, repositorio y rama](/assets/gitbook/08.png "")
 
   - Cuando nos pregunte, marcamos que en la sicronización inicial copie el contenido de GitHub sobre el de GitBook, y pulsamos _sync_.
 
   ![Marcamos _GitHub to GitBook_](/assets/gitbook/09.png "")
-  ---
+
   ![Esperamos que concluya el proceso](/assets/gitbook/10.png "")
 
   - Nuestro sitio web ya estará publicado con el contenido que hemos escrito localmente. De ahí en adelante, todo lo que escirbamos en nuesto repositorio local y subamos a GitHub será volcado en segundos en nuestra documentación GitBook.
