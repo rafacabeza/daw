@@ -76,34 +76,35 @@ Sigue estas instrucciones para llevarlo a cabo:
 
   - Añade un sitio. Le llamaremos `pruebagitbook`. 
 
-  ![Página de inicio](/assets/gitbook/02.png "")
-  ![Página de inicio](/assets/gitbook/03.png "")
+  ![Click nuevo](/assets/gitbook/02.png "")
+  
+  ![Elegimos _docs site_](/assets/gitbook/03.png "")
 
   - Indicaremos que sin contenido. 
 
-  ![Página de inicio](/assets/gitbook/04.png "")
+  ![Marcamos _No content_](/assets/gitbook/04.png "")
 
   - Podríamos dejarlo para más tarde pero decimos que se publique ya.
 
-  ![Página de inicio](/assets/gitbook/05.png "")
+  ![Marcamos _Publish now_](/assets/gitbook/05.png "")
 
   - Ya está creada la documentación en GitBook, pero está vacía. Seguimos ....
   - Ahora toca vincularlo al contenido de nuestro repositorio github.com (pruebagitbook). Ve al sitio en GitBook.com y pulta el icono de _configure_. A continuación ves varias imágenes que ilustran el proceso de configuración.
 
-  ![Página de inicio](/assets/gitbook/06.png "")
+  ![Iniciamos la sincronización en _configure_](/assets/gitbook/06.png "")
   ---
-  ![Página de inicio](/assets/gitbook/07.png "")
+  ![Activamos la sincronización](/assets/gitbook/07.png "")
   ---
-  ![Página de inicio](/assets/gitbook/08.png "")
+  ![Y buscamos nuestra cuenta, repositorio y rama](/assets/gitbook/08.png "")
 
   - Cuando nos pregunte, marcamos que en la sicronización inicial copie el contenido de GitHub sobre el de GitBook, y pulsamos _sync_.
 
-  ![Página de inicio](/assets/gitbook/09.png "")
+  ![Marcamos _GitHub to GitBook_](/assets/gitbook/09.png "")
   ---
-  ![Página de inicio](/assets/gitbook/10.png "")
+  ![Esperamos que concluya el proceso](/assets/gitbook/10.png "")
 
   - Nuestro sitio web ya estará publicado con el contenido que hemos escrito localmente. De ahí en adelante, todo lo que escirbamos en nuesto repositorio local y subamos a GitHub será volcado en segundos en nuestra documentación GitBook.
 
-  ![Página de inicio](/assets/gitbook/11.png "")
+  ![Ya hemos completado el proceso!](/assets/gitbook/11.png "")
 
   - Prueba que todo funciona. Modifica el contenido local. Haz nuevos commits y súbelos a github. Comprueba que el contenido de gitbook.com se actualiza tras unos segundos.
