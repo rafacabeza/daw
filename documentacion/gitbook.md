@@ -96,6 +96,8 @@ Sigue estas instrucciones para llevarlo a cabo:
   ![Activamos la sincronización](/assets/gitbook/07.png "")
 
   ![Y buscamos nuestra cuenta, repositorio y rama](/assets/gitbook/08.png "")
+  <br>
+  OJO!! La primera vez que hacemos una sincronización debemos instalar la aplicación de Github con el enlace _GitHub instalation_
 
   - Cuando nos pregunte, marcamos que en la sicronización inicial copie el contenido de GitHub sobre el de GitBook, y pulsamos _sync_.
 
