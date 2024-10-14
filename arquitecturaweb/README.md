@@ -69,9 +69,14 @@ Las dos capas citadas están en cualquiera de los host finales. Los ordenadores,
       - Switch o conmutador ethernet que permite interconectar equipos usando este sistema.
       - Punto de acceso wifi. Permite interconectar equipos usando tecnología wifi. Además los puntos de acceso tienen función de puente que permite interconectar la red ethernet con la citada wifi.
 
-**Router domésticos**
+**Hardware**
 
-- Es habitual que los routers se fabrique como un combo que dos o más tipos de hardware: une hardware 
+- Tarjeta de red. Capas de acceso y de red.
+- Hub. Capa de acceso.
+- Switch. Capa de acceso.
+- Punto de acceso. Capa de acceso.
+- Router. Capa de red. Tiene 2 o más tarjas de red. Al menos, una al exterior y una al interior. Por tanto, al menos dos direccioens IP.
+- Dispositivos híbridos. Es habitual que los routers se fabrique como un combo que dos o más tipos de hardware: une hardware 
   - Un router propiamente dicho, con 2 o más tarjetas de de red
   - Un switch con varios puertos para conectar equipos dentro de la red interna.
   - Además los equipos domésticos suelen incorporar un punto de acceso que permite conectar también equipos de forma inalámbrica.

@@ -12,5 +12,5 @@
   * [GitBook](documentacion/gitbook.md)
 
 
-* [Arquitectura WEb](arquitecturaweb/README.md)
+* [Arquitectura Web](arquitecturaweb/README.md)
 
