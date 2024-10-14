@@ -40,6 +40,9 @@ Todos los protocolos de aplicación requieren enviar y recibir cosas. Cosas gran
 - UDP. El protocolo UDP sirve para las cosas pequeñas. 
   - Como son cosas pequeñas y sencillas es muy sencillo.
   - Es necesario porque la estructura de capas no permite que la capa de aplicación hable con una capa de nivel inferior.
+- Tanto TCP como UDP usan el concepto de puerto. 
+  - Una conexión TCP o un envío UDP requieren una IP de origen y otra de destino, además un número de puerto de origen y otro de destino.
+  - Hay números reservados.
 
 Las dos capas citadas están en cualquiera de los host finales. Los ordenadores, servidores, móviles, ...
 
