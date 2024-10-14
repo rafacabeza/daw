@@ -7,7 +7,6 @@
 * [Introducción](introduccion/introduccion.md)
 
 * Documentación y Control de versiones
-
   * [GIT](documentacion/git.md)
   * [Markdown](documentacion/markdown.md)
   * [GitBook](documentacion/gitbook.md)
