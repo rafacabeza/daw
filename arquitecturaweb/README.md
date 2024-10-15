@@ -84,6 +84,94 @@ Las dos capas citadas están en cualquiera de los host finales. Los ordenadores,
   - Un switch con varios puertos para conectar equipos dentro de la red interna.
   - Además los equipos domésticos suelen incorporar un punto de acceso que permite conectar también equipos de forma inalámbrica.
 
+### Direccionamiento IP
+
+- En los apuntes enlazados arriba tenemos:  
+  - [Direccionamiento IP](https://www.educatica.es/redes/6-direccionamiento-ip/)
+  - [Funcionamiento](https://www.educatica.es/redes/7-funcionamiento-de-la-comunicacion-en-redes-ip/). Vídeo muy ilustrativo.
+  - [Subredes](https://www.educatica.es/redes/8-direccionamiento-ip-subredes/)
+
+**Resumen del direccionamiento IP**
+
+- Las direcciones IP son 32 bits (ceros y unos). Representados como 4 decimales separados por puntos. Por ejemplo 192.168.5.3. Cada decimal representa 8b por lo que va desde 0 a 255.
+- La primera parte de esos 32 bits representa una red, un conjunto de equipos conectados entre sí directamente. Todos los equipos de la red tienen esa primera parte de su dirección idéntica.
+- La segunda parte identifica a cada miembro o *host* de la red.
+- La dirección de host que usa sólo 0's es especial y se usa para referirse a la red en conjunto.
+- La dirección de host que usa sólo 1's es especial también. Se usa para enviar algo a todos los miembros de la red. Es un comodín.
+- Quien administra las direcciones es un organismo global de internet, el IANA. Este organismo dividió las direcciones en varias clases.
+
+
+Clase |	Intervalo (*) |	Red y Host |	Máscara de red
+------|-------------- |------------|-------------
+A |	0.0.0.0 (**) – 127.255.255.254 |	8b + 24b |	255.0.0.0
+B |	128.0.0.0 – 191.255.255.254 |	16b + 16b |	255.255.0.0
+C |	192.0.0.0 – 223.255.255.254 |	24b + 8b |	255.255.255.0
+D |	224.0.0.0 – 239.255.255.254 | | |		
+E |	240.0.0.0 – 255.255.255.254 | | |
+
+- Clase A. Pocas redes, muy grandes. Clase C, muchas redes pequeñas. Clase B, situación intermedia.
+
+**Direcciones dinámicas y estáticas** 
+
+- Dinámicas si se asignan al encender el equipo y cambian periódicamente. 
+  - Caso de nuestro router doméstico que recibe una IP pública cambiante.
+  - Los ordenadores de una red local (LAN) configurados por DHCP
+
+- Estáticas
+  - Si nuestro router pudiera *comprar* o *alquilar* una IP fija. Hoy inviable para usuarios domésticos.
+
+**Direcciones privadas**
+
+
+- Las direcciones públicas son únicas en el mundo. No puede haber dos redes iguales o dos host iguales en la misma red.
+- Las direcciones públicas son escasas por eso a los equipos domésticos dentro de una LAN se les asignan unas direcciones llamadas privadas. 
+  - Las direcciones privadas se repiten en multitud de ubicaciones.
+  - Los routers usan un mecanismo llamado NAT (traducción de direcciones de red) para reemplazar la IP del host cuando sus paquetes salen al exterior.
+  - Las direcciones privadas son las siguientes:
+
+Clase |	Inicio |	Fin | Estructura	| nº de redes
+------|--------------|------------|-------------|-------------
+Clase A |	10.0.0.0 |	10.255.255.255 | 	8 bits red, 24 bits hosts | 1 red
+Clase B |	172.16.0.0 |	172.31.255.255 | 	16 bits red, 16 bits hosts | 16 redes
+  - Si un equipo en la red local tiene una dirección fija: router, impresora, servidor, .reservadas o especiales..
+
+Clase C |	192.168.0.0 |	192.168.255.255 | 	24 bits red, 8 bits hosts | 256 redes
+
+**Direcciones reservadas o especiales**
+
+Inicio |	Fin | Explicación
+------|--------------|------------
+0.0.0.0 |	0.0.0.255 | Uso interno para los routers
+127.0.0.0 |	127.255.255.255 | Loopback o bucle interno, el propio equipo
+169.254.0.0 |	169.254.255.255 | Configuración DCHP fallida
+
+**Representación de una dirección**
+
+- Una IP son 32 bits y se representan así: 172.18.5.1 (host), o 172.18.0.0 (red)
+- En muchas ocasiones interesa acompañarla de su máscara de red en tal caso, la máscara puede representarse en decimal: 255.255.0.0
+- Es muy habitual representar la IP y su máscara en una sola línea. Tras la IP se pone una barra (/) y el número de bits de la máscara: 172.18.5.1/24, 172.18.0.0/24, 192.168.5.31/24, ....
+
+**Subredes**
+
+- Para organizar de forma más flexible las direcciones disponibles se define un mecanismo de máscara variable. De esta manera se pueden usar máscaras de longitu distinta a 8, 16 o 24 bits. 
+- Según cómo usemos esto hablamos de crear subredes o superredes al dividir o agrupar las redes existentes previamente.
+- No vamos a explicar este mecanismo en detalle por no extendernos. Está en el enlace de arriba.
+
 ### Configuración de red
+
+- Configurar una tarjeta de red implica:
+  - Asignar una IP y una máscara. Se puede escribir en cualquiera de las dos notaciones explicadas
+  - Ejemplo 1: 192.168.0.1/255.255.255.0
+  - Ejemplo 2: 192.168.0.1/24
+  - Una tarjeta puede tener varias IP (y sus correspondientes máscaras).
+- Puerta de enlace
+  - Opcionalmente se puede añadir una puerta de enlace. Es una IP de la misma red que la tarjeta configurada y que nos conecta con el exterior.
+  - Si sólo hay una tarjeta es obligatorio configurarla para poder salir al exterior (Internet).
+- DNS
+  - La configuración DNS se refiere a todo el Sistema Operativo pero Windows lo asocia a una tarjeta.
+  - Es una o varias direcciones IP de equipos que resuelven nombres de acuerdo al sistema DNS. Es decir que traducen un nombre por su IP.
+- La configuración completa de un equipo y su tarjeta de red implica: IP con máscara, puerta de enlace, direccion(es) DNS.
+- Todos esos parámetros pueden ser configurados manualmente o mediante DHCP. 
+- Todos esos parámetros pueden ser configurados mediante CUI o GUI, es decir por consola o por entorno gráfico.
 
 [https://asir.readthedocs.io/es/latest/TEMA_2_Dhcp/configuracion.html](https://asir.readthedocs.io/es/latest/TEMA_2_Dhcp/configuracion.html)
