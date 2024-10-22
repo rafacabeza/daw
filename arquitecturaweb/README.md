@@ -119,6 +119,8 @@ Las dos capas citadas están en cualquiera de los host finales. Los ordenadores,
 
 - Estáticas
   - Si nuestro router pudiera *comprar* o *alquilar* una IP fija. Hoy inviable para usuarios domésticos.
+  - Si un equipo en la red local tiene una dirección fija. Esto es interesante para casos como un router, impresora, servidor, ...
+
 
 #### Direcciones privadas
 
@@ -133,9 +135,7 @@ Las dos capas citadas están en cualquiera de los host finales. Los ordenadores,
 | ------- | ---------- | -------------- | -------------------------- | ----------- |
 | Clase A | 10.0.0.0   | 10.255.255.255 | 8 bits red, 24 bits hosts  | 1 red       |
 | Clase B | 172.16.0.0 | 172.31.255.255 | 16 bits red, 16 bits hosts | 16 redes    |
-  - Si un equipo en la red local tiene una dirección fija: router, impresora, servidor, .reservadas o especiales..
-
-Clase C |	192.168.0.0 |	192.168.255.255 | 	24 bits red, 8 bits hosts | 256 redes
+| Clase C |	192.168.0.0 |	192.168.255.255 | 	24 bits red, 8 bits hosts | 256 redes
 
 #### Direcciones reservadas o especiales
 
