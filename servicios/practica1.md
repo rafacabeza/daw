@@ -25,10 +25,21 @@ Interconexión de equipos en escritorios virtuales.
 
 ## Configuración del Ubuntu Server.
 
-1. Para cambiar el nombre en Ubuntu: fichero `/etc/hostname`.
-   - Recuerda que debes usar sudo para poder hacerlo.
-   - Usa nano, vim o `echo ..... > /etc/hostname`
-   - Reinicia el equipo para que surta efecto
+1. Para cambiar el nombre en Ubuntu hay dos formas:
+
+   1. Editar el fichero `/etc/hostname`.
+      - Recuerda que debes usar sudo para poder hacerlo.
+      - Usa nano, vim o `echo ..... > /etc/hostname`
+      - Reinicia el equipo para que surta efecto
+   2. Usando los comandos específicos:
+
+      ```sh
+      hostname //consulta básica
+      hostnamectl //consula más completa y más información
+      hostnamectl set-hostname nuevoNombre //cambiar nombre
+      ping 8.8.8.8
+      ```
+
 2. Configurar tarjetas de red.
    - Disponemos de 3 tarjetas. Las dos primeras deben usar dhcp. La tercera es la que está en la red **sanh3**
    - Configura tu tarjeta de red usando la dirección 192.168.X.1/24.
