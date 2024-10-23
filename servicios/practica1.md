@@ -30,14 +30,28 @@ Interconexión de equipos en escritorios virtuales.
    - Usa nano, vim o `echo ..... > /etc/hostname`
    - Reinicia el equipo para que surta efecto
 2. Configurar tarjetas de red.
-   - Disponemos de 3 tarjetas. La tercera es la que está en la red **sanh3**
+   - Disponemos de 3 tarjetas. Las dos primeras deben usar dhcp. La tercera es la que está en la red **sanh3**
    - Configura tu tarjeta de red usando la dirección 192.168.X.1/24.
    - Puerta de enlace. No debes definirla.
    - DNS, tampoco.
+   - Toma los ficheros de ejemplo de estos apuntes
+   - Aplica los cambios usando `netplan apply`
+   - Comprueba que la IP se ha actualizado con el comando `ip a`.
+3. Debe
 
 
 ## Configuración del Cliente Ubuntu
 
+- Busca el diálogo de configuración y cambia el nombre del equipo a `ubuntuXX`.
+- Busca el diálogo de configuración (windows + red) y cambia la configuración de red usando la dirección 192.168.X.2/24
+- Comprueba que la IP se ha actualizado con el comando `ip a`.
+- Prueba la conexión con el servidor con `ping`
+
 ## Configuración del Cliente Windows 10
 
+
+- Busca el diálogo de configuración y cambia el nombre del equipo a `windowsXX`.
+- Busca el diálogo de configuración (windows + conexiones) y cambia la configuración de red usando la dirección 192.168.X.2/24
+- Comprueba que la IP se ha actualizado con el comando `ipconfig`.
 Para cambiar el nombre en Windows: botón derecho sobre icono de equipo.
+- Prueba la conexión con el servidor con `ping`
