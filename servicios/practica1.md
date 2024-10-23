@@ -60,9 +60,12 @@ Interconexión de equipos en escritorios virtuales.
 
 ## Configuración del Cliente Windows 10
 
-
 - Busca el diálogo de configuración y cambia el nombre del equipo a `windowsXX`.
 - Busca el diálogo de configuración (windows + conexiones) y cambia la configuración de red usando la dirección 192.168.X.2/24
 - Comprueba que la IP se ha actualizado con el comando `ipconfig`.
 Para cambiar el nombre en Windows: botón derecho sobre icono de equipo.
 - Prueba la conexión con el servidor con `ping`
+
+
+## Configuración DHCP en Ubuntu Server
+
