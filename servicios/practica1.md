@@ -71,7 +71,7 @@ Para cambiar el nombre en Windows: botón derecho sobre icono de equipo.
 
 - Añade una tarjeta de red a tus 3 máquinas asociadas a la red `Personal 1`
 - Vas a utilizar la dirección de red: 192.168.1XX.0/24, donde XX debes sustituirlo por tu número de alumno.
-- Configura el servidor DHCP de acuerdo a este guión: https://serviciosgs.readthedocs.io/es/latest/dhcp/ejercicio1.html
+- Configura el servidor DHCP de acuerdo a este guión: (https://serviciosgs.readthedocs.io/es/latest/dhcp/ejercicio1.html)[https://serviciosgs.readthedocs.io/es/latest/dhcp/ejercicio1.html]
 - Configura tus clientes para que configuren sus tarjetas en la red _Personal 1_ mediante DHCP.
 - Comprueba la dirección obtenida y la conexión mediante ping.
 

@@ -92,6 +92,49 @@ La gestión de la red está definida por la etiqueta `renderer`:
 
 ## SSH
 
+- El servcio SSH permite laconexión por consola con una máquina remota.
+
+- (https://asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html)[https://asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html]
+
+### Instalar SSH
+
+- Para instalar el servidor SSH, si no estuviera instalado, debemos ejecutar el siguiente comando:
+
+```
+apt update
+
+apt install openssh-server
+```
+
+- Si lo acabamos de instalar debemos iniciarlo y permitir su inicio en el arranque del equipo:
+
+```
+systemctl enable ssh
+
+systemctl start ssh
+```
+
+### Veamos algunos casos de uso de SSH 
+
+- Conexión a máquina remota
+
+```bash
+ssh direccionRemota
+# direccionRemota es un nombre de dominio o una IP.
+```
+
+- Conexión a máquina remota usuario específico.
+
+```bash
+ssh usuario@direccionRemota
+# direccionRemota es un nombre de dominio o una IP.
+```
+
+- Conexión a máquina remota puerto específico.
+
+- Conexión sin contraseña.
+
+- 
 
 ## DNS
 
