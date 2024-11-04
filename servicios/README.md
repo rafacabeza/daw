@@ -136,6 +136,15 @@ ssh usuario@direccionRemota
 
 - 
 
+
+### Más cosas interesantes:
+
+- Conexión gráfica a través de SSH. Reenvío de puertos X11
+- Sistema de ficheros SSHFS
+- Montar carpetas en VSC con SSH
+- Copiar ficheros con SSH.
+- Copiar ficheros con rsync y SSH.
+
 ## DNS
 
 
