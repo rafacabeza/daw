@@ -172,9 +172,10 @@ Una vez realizada la concesión podemos verificar el estado de nuestra red:
 > En windows puedes conocer toda la información de la red con `ipconfig` o `ipconfig/all`
 > 
 > En linux hace falta algo más complejo:
-> - `ip a`, `ip address` para ver las direcciones de rud
+> 
+> - `ip a`, `ip address` para ver las direcciones de red
 > - `ip r`,  `ip route` para ver la puerta de enlace (y más información de enrutamiento)
-> - `cat /etc/resolv.conf` para ver las direcciones de rud
+> - `cat /etc/resolv.conf` para ver el servidor DNS
 
 En el servidor podemos comprobar la lista de direcciones prestadas usando uno de estos comandos:
 
