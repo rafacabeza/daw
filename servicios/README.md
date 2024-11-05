@@ -161,17 +161,20 @@ Sólo falta configurar los clientes para que tomen la configuración de red de f
 
 > [!NOTE]  
 >	En Windows la instrucción ``ipconfig /release`` libera la concesión, la instrucción ``ipconfig /renew`` la renueva. 
+>
 > En linux el comando para liberar la concesión es ``dhclient -r`` y el que nos permite renovarla será ``dhclient``.
 
 Una vez realizada la concesión podemos verificar el estado de nuestra red:
 
 > [!NOTE]  
 > Recuerda que:
+> 
 > En windows puedes conocer toda la información de la red con `ipconfig` o `ipconfig/all`
+> 
 > En linux hace falta algo más complejo:
-> `ip a`, `ip address` para ver las direcciones de rud
-> `ip r`,  `ip route` para ver la puerta de enlace (y más información de enrutamiento)
-> `cat /etc/resolv.conf` para ver las direcciones de rud
+> - `ip a`, `ip address` para ver las direcciones de rud
+> - `ip r`,  `ip route` para ver la puerta de enlace (y más información de enrutamiento)
+> - `cat /etc/resolv.conf` para ver las direcciones de rud
 
 #### Creando reservas
 
