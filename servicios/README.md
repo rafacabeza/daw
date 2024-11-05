@@ -176,6 +176,14 @@ Una vez realizada la concesión podemos verificar el estado de nuestra red:
 > - `ip r`,  `ip route` para ver la puerta de enlace (y más información de enrutamiento)
 > - `cat /etc/resolv.conf` para ver las direcciones de rud
 
+En el servidor podemos comprobar la lista de direcciones prestadas usando uno de estos comandos:
+
+```bash
+dhcp-lease-list
+
+cat /var/lib/dhcp/dhcpd.leases
+```
+
 #### Creando reservas
 
 
