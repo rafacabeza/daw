@@ -224,7 +224,7 @@ apt install openssh-server
 
 - Si lo acabamos de instalar debemos iniciarlo y permitir su inicio en el arranque del equipo:
 
-```
+```bash
 systemctl enable ssh
 
 systemctl start ssh
