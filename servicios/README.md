@@ -94,7 +94,7 @@ La gestión de la red está definida por la etiqueta `renderer`:
 
 - El servcio SSH permite laconexión por consola con una máquina remota.
 
-- (https://asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html)[https://asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html]
+- [asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html](https://asir.gonzaleztroyano.es/projects/syad-1/servicio/servidor-ssh.html)
 
 ### Instalar SSH
 
