@@ -266,14 +266,19 @@ ssh direccionRemota
 
 ```bash
 ssh usuario@direccionRemota
-# direccionRemota es un nombre de dominio o una IP.
 ```
 
 - Conexión a máquina remota puerto específico.
 
-- Conexión sin contraseña.
+```bash
+ssh usuario@direccionRemota -p NuevoPuerto
+```
 
-- 
+- Conexión sin contraseña.
+  - Generar par de claves pública/privada: `ssh-keygen`
+  - Copiar la clave en la máquina remota: `ssh-copy-id usuario_remoto@direccionRemota`
+
+- Copiar ficheros a través de ssh: `scp`. Es un comando similar al compando `cp`.
 
 
 ### Más cosas interesantes:
