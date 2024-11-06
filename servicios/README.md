@@ -151,11 +151,30 @@ subnet 192.168.0.0 netmask 255.255.255.0 {
 }
 ```
 	
-Reinciciamos el servidor dhcp:
+#### Mantenimiento del servicio
+
+Una vez hechos los cambios en el servicio, debemos reiniciar el servidor para que dichos cambios surtan efecto:
 
 ```bash
 service isc-dhcp-server restart
 ```
+
+> [!IMPORTANT]
+> 
+> - Además de reiniciar el servicio podemos pararlo, iniciarlo o ver el estado:
+>   ```
+>   service isc-dhcp-server stop
+>   service isc-dhcp-server start
+>   service isc-dhcp-server status
+>   ```
+>  - El puerto usado es el UDP número 67. Además, los clientes tienen otro servidor atendiendo al puerto UDP número 68. Podemos verificar que está funcionando con
+> 
+>   ```
+>   netstat -lun 
+>   # -l para listado, -u para UDP, -n para numérico. Para TCP usaríamos -t
+>   ```
+
+
 
 Sólo falta configurar los clientes para que tomen la configuración de red de forma dinámica.
 
