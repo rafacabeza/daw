@@ -173,8 +173,11 @@ service isc-dhcp-server restart
 >   netstat -lun 
 >   # -l para listado, -u para UDP, -n para numérico. Para TCP usaríamos -t
 >   ```
-
-
+>   - Si no funciona podemos detectar el posible error de configuración en el fichero revisando el `service isc-dhcp-server status` o en el contenido del fichero `/var/log/syslog`
+>     ```bash
+>     less /var/log/syslog #Para ver el log del sistema de forma interactiva
+>     tail /var/log/syslog #Para ver las últimas líneas del log del sistema
+>     ```
 
 Sólo falta configurar los clientes para que tomen la configuración de red de forma dinámica.
 

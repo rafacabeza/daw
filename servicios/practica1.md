@@ -7,6 +7,7 @@ Interconexión de equipos en escritorios virtuales.
 - Cambio de nombres de máquina
 - Configurar tarjetas de red
 - Configurar servidor DCHP en Ubuntu Server
+- Documenta tu práctica con Markdown y GitHub. Comparte tu repositorio con el profesor.
 
 ## Punto de partida
 
@@ -69,9 +70,13 @@ Para cambiar el nombre en Windows: botón derecho sobre icono de equipo.
 
 ## Configuración DHCP en Ubuntu Server
 
-- Añade una tarjeta de red a tus 3 máquinas asociadas a la red `Personal 1`
+- Añade una tarjeta de red a tus 3 máquinas asociadas a la red `Personal 1` (Hecho por el profesor). En las máquinas línux se etiquetará como enp4s0.
 - Vas a utilizar la dirección de red: 192.168.1XX.0/24, donde XX debes sustituirlo por tu número de alumno.
-- Configura el servidor DHCP de acuerdo a este guión: [serviciosgs.readthedocs.io/es/latest/dhcp/ejercicio1.html](https://serviciosgs.readthedocs.io/es/latest/dhcp/ejercicio1.html)
-- Configura tus clientes para que configuren sus tarjetas en la red _Personal 1_ mediante DHCP.
+- Configura el servidor DHCP. Debes definir un rango desde la IP 192.168.XX.100 hasta la 192.168.XX.200.
+- Comprueba el estado del servicio y que el puerto 67 está en espera (_netstat_).
+- Prepara tus clientes para que configuren sus tarjetas en la red _Personal 1_ mediante DHCP.
 - Comprueba la dirección obtenida y la conexión mediante ping.
-
+- Verifica las _leases_ o préstamos del servidor (_dhcp-lease-list_ y /var/lib/dhcp/dhcpd.leases_)
+- Configura una reserva de IP fija en el servidor DHCP. Por ejemplo la dirección 50.
+- Reinicia el servicio, y renueva la IP en windows. Verifica que la nueva configuración toma efecto.
+- Apaga el servidor. ¿Cambia la configuración de los clientes?
