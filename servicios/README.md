@@ -1,4 +1,4 @@
-# Servicdores de servicios
+# Servidores de servicios
 
 ## Configuración de red
 
@@ -248,12 +248,13 @@ apt install openssh-server
 - Si lo acabamos de instalar debemos iniciarlo y permitir su inicio en el arranque del equipo:
 
 ```bash
+// activar al inicio del sistema
 systemctl enable ssh
-
+// iniciarlo manualmente
 systemctl start ssh
 ```
 
-### Veamos algunos casos de uso de SSH 
+### Realizar una conexión SSH 
 
 - Conexión a máquina remota
 
@@ -278,16 +279,38 @@ ssh usuario@direccionRemota -p NuevoPuerto
   - Generar par de claves pública/privada: `ssh-keygen`
   - Copiar la clave en la máquina remota: `ssh-copy-id usuario_remoto@direccionRemota`
 
+### Copiar ficheros a través de ssh: scp y rsync
+
 - Copiar ficheros a través de ssh: `scp`. Es un comando similar al compando `cp`.
+- Puedes usar `rsync` en vez de `scp`. Resulta muy potente para sincronizar carpetas completas de modo que los ficheros que no cambian no se copian. 
+  - Puedes revisar su uso básico [aquí](https://www.hostinger.es/tutoriales/rsync-linux)
+  - Veamos alugnos ejemplos:
+  
+  ```bash
+  #Toma el contenido dentro de "original/" y lo replica en "duplicate/" ambas carpetas deben existir
+  rsync -avz original/ duplicate/
+  #Toma la carpeta "original" y su contenido y lo replica en "duplicate" esa carpeta se crea si es necesario.
+  rsync -av original duplicate
+
+  # -a: (--archive) Se conservan permisos, fechas y es recursivo.
+  # -v: (--verbose) Muestra información del proceso
+  # -z: (--compress) Comprime para hacer la transferencia más eficiente
+
+  rsync -az ~/Desktop/Original edward@192.168.22.90:~/tmp/
+  rsync -az ~/Despliegue/daw rafa@192.168.22.90:/var/www/
+  ```
 
 
-### Más cosas interesantes:
+### Montar carpetas remotas en VSC
 
-- Conexión gráfica a través de SSH. Reenvío de puertos X11
-- Sistema de ficheros SSHFS
-- Montar carpetas en VSC con SSH
-- Copiar ficheros con SSH.
-- Copiar ficheros con rsync y SSH.
+Podemos abrir conexiones ssh en nuestro editor VSC. Esto significa abrir terminales remotos pero también puede usarse para abrir carpetas en el editor para editar ficheros remotos. Puedes hacerlo con distintas extensiones. Te proponemos hacerlo con estas extensiones de Microsoft:
+
+- Remote - SSH
+- Remote - SSH: Editing Configuration Files
+- Remote Explorer
+
+
+ 
 
 ## DNS
 
