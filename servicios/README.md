@@ -312,7 +312,32 @@ Podemos abrir conexiones ssh en nuestro editor VSC. Esto significa abrir termina
 
  
 
-## DNS
+## DNS. El Sistema de Nombres de Dominio
 
+###  Las bases del DNS
 
-<!-- ## FTP -->
+Enlace a apuntes completos: https://www.fpgenred.es/DNS/_cmo_funciona_.html
+
+El Sistema de Nombres de Dominio de Internet (Internet Domain Name System) es una implementación específica del concepto de servidor de nombres. Dicha implementación cubre tres requisitos:
+
+- Necesidad de una jerarquía de nombres.
+- Necesidad de un reparto de carga entre los   servidores de nombres.
+- Necesidad de delegar la administración de los servidores de nombres.
+
+El DNS se implementa a través de una estructura de árbol. Es una estructura jerárquica:
+
+- En el nivel superior se encuentra el nodo raíz ("."). No lo escribimos pero está ahí: **google.com.**
+- Le siguen los nodos de dominios de primer nivel (TLD, Top Level Domain). De tipo general (gTLD) como ".com" y de tipo regional (ccTLD) como el ".es". Los ccTLD son siempre de dos caracteres.
+- A continuación vienen los nodos de dominios de segundo nivel (SLD, Second Level Domain). Son dominios definidos dentro de un TLD. Esos son los dominios que normalmente deseamos contratar. Por ejemplo **iessantiagoherandez.com** es la unión del SLD _iessantiagohernandez_ dentro del TLD _.com_
+- Y por último, termina con un número indefinido de nodos de niveles inferiores. Todos estos niveles se separan con un punto al escribirlos. www.iessantiagoherandez.com
+
+###  Herramientas de diagnóstico DNS
+
+- A continuación tres enlaces para empezar a usar estas herramientas:
+
+  - https://webirix.com/herramientas-de-diagnostico-dns-en-linux-host-nslookup-y-dig/
+  - https://www.zeppelinux.es/herramienta-de-diagnostico-dns-dig/
+  - https://www.youtube.com/watch?v=aAUahbLogKc
+
+### Configurar servicio DNS en Linux: Bind
+
