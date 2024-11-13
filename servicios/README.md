@@ -314,11 +314,11 @@ Podemos abrir conexiones ssh en nuestro editor VSC. Esto significa abrir termina
 
 ## DNS. El Sistema de Nombres de Dominio
 
-###  Las bases del DNS
+###  Concepto
 
-Enlace a apuntes completos: https://www.fpgenred.es/DNS/_cmo_funciona_.html
+<!-- Enlace a apuntes completos: https://www.fpgenred.es/DNS/_cmo_funciona_.html -->
 
-El Sistema de Nombres de Dominio de Internet (Internet Domain Name System) es una implementación específica del concepto de servidor de nombres. Dicha implementación cubre tres requisitos:
+El Sistema de Nombres de Dominio de Internet (Internet Domain Name System) es una implementación del concepto de servidor de nombres. Actúa como una "agenda telefónica" que traduce los nombres de dominio legibles por humanos (como `www.ejemplo.com`) en direcciones IP numéricas que las computadoras utilizan para identificarse y comunicarse entre sí. Dicha implementación cubre tres requisitos:
 
 - Necesidad de una jerarquía de nombres.
 - Necesidad de un reparto de carga entre los   servidores de nombres.
@@ -326,11 +326,92 @@ El Sistema de Nombres de Dominio de Internet (Internet Domain Name System) es un
 
 El DNS se implementa a través de una estructura de árbol. Es una estructura jerárquica:
 
+![Jerarquía DNS](/assets/dns/jerarquia.png)
+
+### Función básica de DNS
+
+Cuando quieres acceder a un sitio web, por ejemplo, escribes en el navegador `www.ejemplo.com`. Sin embargo, las computadoras no entienden los nombres de dominio, solo las direcciones IP (números únicos que identifican a cada servidor en la red). Aquí es donde entra el DNS: convierte el nombre `www.ejemplo.com` en una dirección IP (por ejemplo, `192.0.2.1`).
+
+### Cómo funciona el proceso DNS
+
+1. **Resolución de nombres**: El proceso de traducción de un nombre de dominio a una dirección IP se llama "resolución de nombres". Esto involucra una serie de pasos:
+
+   - **Paso 1: Consulta del navegador**: Cuando escribes un nombre de dominio en el navegador, este primero revisa si la dirección IP ya está guardada en su caché local (porque ya se ha visitado ese sitio antes).
+   - **Paso 2: Consulta al resolver DNS local**: Si no está en la caché del navegador, el sistema operativo consulta el servidor DNS configurado en tu red (generalmente, el de tu proveedor de servicios de Internet, o ISP). Este servidor es conocido como *resolutor*.
+   - **Paso 3: Recursión**: Si el servidor DNS local no tiene la respuesta en su caché, comienza a realizar consultas recursivas a otros servidores DNS, empezando por los servidores raíz. Es decir, en la práctica el servidor DNS local nos da la solución, porque la tiene en caché o porque la busca recursivamente.
+
+
+### Jerarquía DNS
+
 - En el nivel superior se encuentra el nodo raíz ("."). No lo escribimos pero está ahí: **google.com.**
 - Le siguen los nodos de dominios de primer nivel (TLD, Top Level Domain). De tipo general (gTLD) como ".com" y de tipo regional (ccTLD) como el ".es". Los ccTLD son siempre de dos caracteres.
 - A continuación vienen los nodos de dominios de segundo nivel (SLD, Second Level Domain). Son dominios definidos dentro de un TLD. Esos son los dominios que normalmente deseamos contratar. Por ejemplo **iessantiagoherandez.com** es la unión del SLD _iessantiagohernandez_ dentro del TLD _.com_
 - Y por último, termina con un número indefinido de nodos de niveles inferiores. Todos estos niveles se separan con un punto al escribirlos. www.iessantiagoherandez.com
 
+
+### Resumen de la jerarquía:
+
+1. **Servidores raíz**: Son los encargados de dirigir la consulta a los servidores TLD. Por ejemplo quien se ocupa de los ".com"
+2. **Servidores TLD**: Responden con la ubicación de los servidores autorizados para un dominio específico. Por ejemplo quien se ocupa del "ejemplo.com"
+3. **Servidores autorizados**: Tienen la información final y oficial sobre el dominio, como la dirección IP que necesita el cliente. Es decir traduce la información de esos nombres o permite generar subdominios como departamento.ejemplo.com
+
+
+#### Autoridad y delegación.
+
+- El dominio raiz (.) lo administra el [ICANN](https://es.wikipedia.org/wiki/Corporaci%C3%B3n_de_Internet_para_la_Asignaci%C3%B3n_de_Nombres_y_N%C3%BAmeros). Todos los TLD son creados bajo su autoridad.
+- Los gTLD son administrados de forma autorizada por el ICANN. Es decir, la creación del dominio **santiagohernandez.com** debe ser autorizada por el ICANN.
+- Los ccTLD han sido delegados a los paises. La creación del dominio **santiagohernandez.com** debe ser autorizada por [Rediris](https://www.rediris.es/), entidad que gestiona dicha tarea.
+- Algunos paises continuan delegando en areas más pequeñas. Pero eso no ocurre en España.
+- Quien compra un dominio SLD es el responsable de crear subdominios o máquinas dentro de su dominio:
+  - **www.iessantiagohernandez.com** sería el nombre por defecto para el host servidor de páginas web.
+  - **alumnos.iessantiagohernandez.com** seria un subdominio que podría albergar otras máquinas como por ejemplo www.alumnos.iessantiagohernandez.com
+
+
+### Cómo funciona el proceso DNS
+
+1. **Resolución de nombres**: El proceso de traducción de un nombre de dominio a una dirección IP se llama "resolución de nombres". Esto involucra una serie de pasos:
+
+   - **Paso 1: Consulta del navegador**: Cuando escribes un nombre de dominio en el navegador, este primero revisa si la dirección IP ya está guardada en su caché local (porque ya se ha visitado ese sitio antes). La caché está en el propio navegador o sistema operativo.
+   - **Paso 2: Consulta al resolver DNS local**: Si no está en la caché del navegador, el sistema operativo consulta el servidor DNS configurado en tu red (generalmente, el de tu proveedor de servicios de Internet, o ISP). Este servidor es conocido como *resolutor*. Otras veces se usa uno genérico como el 8.8.8.8 de Google.
+   - **Paso 3: Recursión**: Si el servidor DNS local no tiene la respuesta en su caché, comienza a realizar consultas recursivas a otros servidores DNS, empezando por los servidores raíz.
+
+2. **Jerarquía de servidores DNS**: El sistema DNS está organizado jerárquicamente y tiene varios tipos de servidores:
+
+   - **Servidores raíz**: Son los puntos de entrada al sistema DNS. Existen 13 servidores raíz distribuidos por el mundo, y son responsables de dirigir las consultas a los servidores correspondientes de los dominios de nivel superior (TLD, por sus siglas en inglés).
+   - **Servidores TLD**: Estos servidores gestionan los dominios de nivel superior, como `.com`, `.org`, `.es`, etc. Cuando el servidor raíz recibe una consulta para `www.ejemplo.com`, redirige la consulta a los servidores TLD de `.com`.
+   - **Servidores autorizados** (no digáis autoritativos o autoritarios): Son los que contienen la información definitiva sobre el dominio y su dirección IP. En este caso, el servidor autorizado para `ejemplo.com` devolverá la dirección IP asociada al dominio. Y no sólo eso, también qué direcciones tiene el servidor o servidores autorizados, quien se ocupa del correo electróncio y alguna información más.
+
+3. **Respuesta final**: Una vez que el servidor DNS autorizado responde con la dirección IP correspondiente, esta se envía de vuelta al servidor DNS local, que a su vez la pasa al navegador. El navegador entonces puede conectarse al servidor de esa dirección IP para cargar el sitio web.
+
+### Caché de DNS
+
+Para optimizar el proceso y reducir la carga de trabajo en los servidores DNS, tanto los navegadores como los servidores DNS locales mantienen una caché con las respuestas a consultas recientes. Esto significa que si vuelves a visitar un sitio que ya has visitado antes, el navegador puede usar la dirección IP guardada sin tener que hacer toda la resolución de nuevo. Esta información se guarda un tiempo determinado (TTL, Time To Live).
+
+### Ejemplo del flujo completo:
+
+Supongamos que deseas acceder a `www.ejemplo.com`. Aquí te dejo un resumen del proceso:
+
+1. **El navegador** busca si ya tiene la dirección IP de `www.ejemplo.com` en su caché.
+2. Si no la encuentra, **consulta el servidor DNS** configurado en tu red (el servidor de tu ISP o uno público como Google DNS).
+3. El servidor DNS consulta al **servidor raíz** para saber quién maneja el dominio `.com`.
+4. El servidor raíz responde, indicando que la consulta debe enviarse a los **servidores TLD de `.com`**.
+5. El servidor DNS consulta a los **servidores TLD** de `.com`, que responden indicando que el dominio `ejemplo.com` está gestionado por un servidor DNS autorizado.
+6. El servidor DNS consulta a los **servidores autorizados** para `ejemplo.com`, y obtiene la dirección IP correspondiente.
+7. Finalmente, el servidor DNS envía la dirección IP al navegador, que puede conectarse al servidor web y cargar la página.
+
+### Tipos de registros DNS
+
+Dentro de un servidor DNS, la información se organiza en diferentes tipos de "registros" que definen cómo se debe resolver un dominio. Los más comunes son:
+
+- **A (Address Record)**: Asocia un nombre de dominio con una dirección IPv4 (por ejemplo, `www.ejemplo.com` → `192.0.2.1`).
+- **AAAA**: Similar al registro A, pero para direcciones IPv6.
+- **CNAME (Canonical Name)**: Redirige un dominio a otro (por ejemplo, `www.ejemplo.com` → `ejemplo.com`).
+- **MX (Mail Exchange)**: Especifica los servidores de correo electrónico responsables de un dominio.
+- **NS (Name Server)**: Indica qué servidores DNS son autorizados para un dominio.
+- **TXT**: Permite almacenar texto arbitrario, utilizado para configuraciones de seguridad como SPF (Sender Policy Framework).
+
+
+    
 ###  Herramientas de diagnóstico DNS
 
 - A continuación tres enlaces para empezar a usar estas herramientas:
