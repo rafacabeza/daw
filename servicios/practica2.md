@@ -26,7 +26,12 @@ Servicio de DNS
   13. marca.com
   14. heraldo.es
   15. apple.com
-- Busca
+
+- Intenta resolver las siguientes preguntas con con las 3 herramientas presentadas: host,nslookup y dig.
+  - Busca la IP asignada
+  - Quien resuelve su DNS
+  - Cuál es el servidor de correo electrónico. Si hay varios, determina cual es primero por su prioridad.
+  - Haz la búsqueda de forma autorizada, es decir, que el servidor que contesta sea uno de los registos NS del dominio.
 
 ### Suplantar servicio DNS localmente.
 
@@ -42,4 +47,4 @@ Servicio de DNS
 - Configura el dominio `miapellido.edu` en bind9. Debes hacerlo:
   - En el servidor linux
   - Conectándote al mismo mediante SSH
-- 
+- Debes definir:

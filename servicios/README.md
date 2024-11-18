@@ -821,7 +821,13 @@ Ahora necesitamos crear el archivo que contiene los registros DNS de la zona `ex
    @       IN      MX      10 mail.example.com.
    ```
 
-   - `SOA` (Start of Authority) es el registro principal de la zona.
+   - `SOA` (Start of Authority) es el servidor princial de DNS.
+     - admin.example.com representa el email del administrador (admin@example.com)
+     - Serial es número de serie
+     - Refresh. Tiempo que tardan los secundarios en consultar este principal.
+     - Retry. Tiempo que tardan los secundarios en reintentar si hay fallo.
+     - Expire. Tiempo que los secundarios mantienen los datos DNS.
+     - TTL. Tiempo que se conservan los datos en caché.
    - `NS` son los servidores de nombres (Name Servers) para tu dominio.
    - `A` son los registros de direcciones IPv4.
    - `MX` es el registro de correo.
@@ -917,8 +923,3 @@ Si tienes un firewall activo, asegúrate de permitir el tráfico en el puerto 53
    sudo ufw status
    ```
 
-### **Conclusión**
-
-Con estos pasos, has configurado un servidor DNS básico con BIND9 en Ubuntu. Ahora puedes gestionar tus propias zonas DNS y personalizar la configuración según tus necesidades. BIND9 es altamente configurable y te permite crear servidores DNS muy sofisticados, por lo que puedes explorar más opciones según vayas necesitando.
-
-¡Espero que este tutorial te haya sido útil! Si tienes alguna duda, no dudes en preguntar.
