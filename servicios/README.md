@@ -366,23 +366,6 @@ Cuando quieres acceder a un sitio web, por ejemplo, escribes en el navegador `ww
   - **www.iessantiagohernandez.com** sería el nombre por defecto para el host servidor de páginas web.
   - **alumnos.iessantiagohernandez.com** seria un subdominio que podría albergar otras máquinas como por ejemplo www.alumnos.iessantiagohernandez.com
 
-
-### Cómo funciona el proceso DNS
-
-1. **Resolución de nombres**: El proceso de traducción de un nombre de dominio a una dirección IP se llama "resolución de nombres". Esto involucra una serie de pasos:
-
-   - **Paso 1: Consulta del navegador**: Cuando escribes un nombre de dominio en el navegador, este primero revisa si la dirección IP ya está guardada en su caché local (porque ya se ha visitado ese sitio antes). La caché está en el propio navegador o sistema operativo.
-   - **Paso 2: Consulta al resolver DNS local**: Si no está en la caché del navegador, el sistema operativo consulta el servidor DNS configurado en tu red (generalmente, el de tu proveedor de servicios de Internet, o ISP). Este servidor es conocido como *resolutor*. Otras veces se usa uno genérico como el 8.8.8.8 de Google.
-   - **Paso 3: Recursión**: Si el servidor DNS local no tiene la respuesta en su caché, comienza a realizar consultas recursivas a otros servidores DNS, empezando por los servidores raíz.
-
-2. **Jerarquía de servidores DNS**: El sistema DNS está organizado jerárquicamente y tiene varios tipos de servidores:
-
-   - **Servidores raíz**: Son los puntos de entrada al sistema DNS. Existen 13 servidores raíz distribuidos por el mundo, y son responsables de dirigir las consultas a los servidores correspondientes de los dominios de nivel superior (TLD, por sus siglas en inglés).
-   - **Servidores TLD**: Estos servidores gestionan los dominios de nivel superior, como `.com`, `.org`, `.es`, etc. Cuando el servidor raíz recibe una consulta para `www.ejemplo.com`, redirige la consulta a los servidores TLD de `.com`.
-   - **Servidores autorizados** (no digáis autoritativos o autoritarios): Son los que contienen la información definitiva sobre el dominio y su dirección IP. En este caso, el servidor autorizado para `ejemplo.com` devolverá la dirección IP asociada al dominio. Y no sólo eso, también qué direcciones tiene el servidor o servidores autorizados, quien se ocupa del correo electróncio y alguna información más.
-
-3. **Respuesta final**: Una vez que el servidor DNS autorizado responde con la dirección IP correspondiente, esta se envía de vuelta al servidor DNS local, que a su vez la pasa al navegador. El navegador entonces puede conectarse al servidor de esa dirección IP para cargar el sitio web.
-
 ### Caché de DNS
 
 Para optimizar el proceso y reducir la carga de trabajo en los servidores DNS, tanto los navegadores como los servidores DNS locales mantienen una caché con las respuestas a consultas recientes. Esto significa que si vuelves a visitar un sitio que ya has visitado antes, el navegador puede usar la dirección IP guardada sin tener que hacer toda la resolución de nuevo. Esta información se guarda un tiempo determinado (TTL, Time To Live).
@@ -420,5 +403,522 @@ Dentro de un servidor DNS, la información se organiza en diferentes tipos de "r
   - https://www.zeppelinux.es/herramienta-de-diagnostico-dns-dig/
   - https://www.youtube.com/watch?v=aAUahbLogKc
 
-### Configurar servicio DNS en Linux: Bind
+---
 
+#### 1. host
+
+`host` es una herramienta más sencilla y directa que `nslookup` y `dig`, ideal para obtener resultados rápidos. A continuación, te muestro cómo usarla para realizar algunas consultas sobre **ejemplo.com**.
+
+##### Consulta básica (Registro A)
+
+Para obtener la dirección IP (registro A) de **ejemplo.com**:
+
+```bash
+host ejemplo.com
+```
+
+**Ejemplo de salida:**
+
+```bash
+ejemplo.com has address 185.199.110.153
+```
+
+Esto muestra que el dominio **ejemplo.com** resuelve a la dirección IP `185.199.110.153`.
+
+##### Consultar registros MX (Mail Exchanger)
+
+Para obtener los servidores de correo asociados con **ejemplo.com**:
+
+```bash
+host -t MX ejemplo.com
+```
+
+**Ejemplo de salida:**
+
+```bash
+ejemplo.com mail is handled by 10 mail.ejemplo.com.
+```
+
+Esto indica que el dominio **ejemplo.com** tiene un servidor de correo con el nombre **mail.ejemplo.com** y una prioridad de 10. Si hay varios, se tomaran por prioridad, el de menor en primer lugar.
+
+##### Consulta a un servidor DNS específico
+
+Para usar un servidor DNS específico (por ejemplo, `8.8.8.8`), podemos hacer lo siguiente:
+
+```bash
+host ejemplo.com 8.8.8.8
+```
+
+Esto consulta el servidor DNS de Google para obtener la dirección IP del dominio **ejemplo.com**.
+
+##### Mostrar todos los registros
+
+Para obtener todos los registros disponibles (A, MX, NS, etc.) de **ejemplo.com**, puedes usar:
+
+```bash
+host -a ejemplo.com
+```
+
+Esto devuelve todos los registros DNS asociados con **ejemplo.com**.
+
+---
+
+#### Resumen de Comandos
+
+| **Comando**                        | **Descripción**                                               | **Ejemplo**                               |
+|------------------------------------|---------------------------------------------------------------|-------------------------------------------|
+| `nslookup ejemplo.com` | Consulta el registro A (dirección IP) del dominio.            | `nslookup ejemplo.com`       |
+| `nslookup -query=MX ejemplo.com` | Consulta los registros MX del dominio.                   | `nslookup -query=MX ejemplo.com` |
+| `dig ejemplo.com`     | Consulta el registro A del dominio.                          | `dig ejemplo.com`            |
+| `dig ejemplo.com MX`  | Consulta los registros MX del dominio.                       | `dig ejemplo.com MX`         |
+| `dig @8.8.8.8 ejemplo.com` | Consulta
+
+ usando un servidor DNS específico (Google DNS).    | `dig @8.8.8.8 ejemplo.com`   |
+| `host ejemplo.com`    | Consulta el registro A del dominio.                          | `host ejemplo.com`           |
+| `host -t MX ejemplo.com` | Consulta los registros MX del dominio.                       | `host -t MX ejemplo.com`     |
+| `host -a ejemplo.com` | Muestra todos los registros DNS del dominio.                 | `host -a ejemplo.com`        |
+
+---
+
+
+#### 2. nslookup (Name Server Lookup)
+
+`nslookup` es una herramienta utilizada para consultar información sobre registros DNS. Está disponible en Linux y Windows. A continuación, exploraremos los comandos más comunes utilizando el dominio **ejemplo.com**.
+
+##### Consulta básica (Registro A)
+
+Para obtener la dirección IP (registro A) de **ejemplo.com**:
+
+```bash
+nslookup ejemplo.com
+```
+
+**Ejemplo de salida:**
+
+```bash
+Server:  UnKnown
+Address:  192.168.1.1
+
+Non-authoritative answer:
+Name:    ejemplo.com
+Address: 185.199.110.153
+```
+
+Esto indica que el dominio **ejemplo.com** resuelve a la dirección IP `185.199.110.153`.
+
+##### Consultar registros MX (Mail Exchanger)
+
+Para obtener los servidores de correo asociados con **ejemplo.com**, usamos la opción `-query=MX`:
+
+```bash
+nslookup -query=MX ejemplo.com
+```
+
+**Ejemplo de salida:**
+
+```bash
+Server:  UnKnown
+Address:  192.168.1.1
+
+Non-authoritative answer:
+ejemplo.com     MX preference = 10, mail exchanger = mail.ejemplo.com
+```
+
+Esto indica que el dominio **ejemplo.com** tiene un servidor de correo con el nombre **mail.ejemplo.com** y una preferencia de 10.
+
+##### Consultar un servidor DNS específico
+
+Para realizar la consulta usando un servidor DNS específico, como Google DNS (8.8.8.8), podemos hacer lo siguiente:
+
+```bash
+nslookup ejemplo.com 8.8.8.8
+```
+
+Esto consulta el servidor DNS de Google para obtener la información del dominio **ejemplo.com**.
+
+##### Consulta en modo interactivo
+
+Para usar `nslookup` en modo interactivo, simplemente ejecutamos el comando `nslookup` sin ningún parámetro:
+
+```bash
+nslookup
+```
+
+Luego, en el prompt interactivo:
+
+```bash
+> ejemplo.com
+```
+
+Esto devolverá la misma información de resolución de nombre IP que obtuvimos en el ejemplo anterior.
+
+Podemos cambiar el servidor que resolverá de forma recursiva.
+
+```bash
+> server
+```
+Podemos cambiar el tipo de registro:
+
+```bash
+> server
+```
+
+---
+
+#### 3. dig (Domain Information Groper)
+
+`dig` es una herramienta más avanzada que `nslookup`, que ofrece resultados más detallados y una mayor flexibilidad. A continuación, veremos cómo usar `dig` para consultar diferentes registros de **ejemplo.com**.
+
+##### Información básica
+
+
+```bash
+dig 
+```
+
+**Ejemplo de salida:**
+
+```bash
+; <<>> DiG 9.18.28-0ubuntu0.22.04.1-Ubuntu <<>>
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 28581
+;; flags: qr rd ra; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;.				IN	NS
+
+;; ANSWER SECTION:
+.			5741	IN	NS	d.root-servers.net.
+.			5741	IN	NS	m.root-servers.net.
+.			5741	IN	NS	b.root-servers.net.
+.			5741	IN	NS	j.root-servers.net.
+.			5741	IN	NS	i.root-servers.net.
+.			5741	IN	NS	c.root-servers.net.
+.			5741	IN	NS	e.root-servers.net.
+.			5741	IN	NS	l.root-servers.net.
+.			5741	IN	NS	f.root-servers.net.
+.			5741	IN	NS	a.root-servers.net.
+.			5741	IN	NS	h.root-servers.net.
+.			5741	IN	NS	g.root-servers.net.
+.			5741	IN	NS	k.root-servers.net.
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Mon Nov 18 00:38:16 CET 2024
+;; MSG SIZE  rcvd: 239
+```
+
+##### Consulta básica (Registro A)
+
+Para obtener la dirección IP del dominio:
+
+```bash
+dig ejemplo.com
+```
+
+**Ejemplo de salida:**
+
+```bash
+; <<>> DiG 9.10.6 <<>> ejemplo.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12345
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; QUESTION SECTION:
+; ejemplo.com. IN A
+;; ANSWER SECTION:
+ejemplo.com. 3600 IN A 185.199.110.153
+;; Query time: 10 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sun Nov 17 14:30:50 UTC 2024
+;; MSG SIZE  rcvd: 56
+```
+
+Este comando consulta el registro A del dominio **ejemplo.com** y obtiene la dirección IP `185.199.110.153`.
+
+##### Consultar registros MX (Mail Exchanger)
+
+Para consultar los servidores de correo asociados al dominio **ejemplo.com**:
+
+```bash
+dig ejemplo.com MX
+```
+
+**Ejemplo de salida:**
+
+```bash
+; <<>> DiG 9.10.6 <<>> ejemplo.com MX
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 67890
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; QUESTION SECTION:
+;ejemplo.com.        IN      MX
+;; ANSWER SECTION:
+ejemplo.com.    3600    IN      MX      10 mail.ejemplo.com.
+;; Query time: 20 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sun Nov 17 14:31:15 UTC 2024
+;; MSG SIZE  rcvd: 56
+```
+
+Esto muestra que el servidor de correo para **ejemplo.com** es **mail.ejemplo.com**, con una preferencia de 10.
+
+##### Consulta recursiva y no recursiva
+
+- **Recursiva (predeterminada)**:
+
+  ```bash
+  dig ejemplo.com
+  ```
+
+  Esto realizará una consulta recursiva, es decir, si el servidor DNS que estamos usando no tiene la información, lo buscará en otros servidores DNS.
+
+- **No recursiva**:
+
+  ```bash
+  dig +norecurse ejemplo.com
+  ```
+
+  En este caso, el servidor DNS solo devolverá los datos que tenga disponibles y no hará consultas adicionales a otros servidores.
+
+##### Consulta a un servidor DNS específico
+
+Si deseas consultar el dominio utilizando un servidor DNS específico (como el servidor DNS de Google `8.8.8.8`), puedes hacerlo de la siguiente forma:
+
+```bash
+dig @8.8.8.8 ejemplo.com
+```
+
+Esto consulta el servidor DNS de Google para obtener la dirección IP de **ejemplo.com**.
+
+##### Consulta con opción `+trace`
+
+Para obtener información detallada sobre cómo se resuelve el dominio (es decir, la cadena de consultas a diferentes servidores DNS):
+
+```bash
+dig +trace ejemplo.com
+```
+
+Esto muestra cada paso del proceso de resolución DNS, comenzando desde el servidor raíz hasta el servidor autoritativo del dominio.
+
+---
+
+
+### Configurar servicio DNS en Linux: Bind9
+
+Vídeo interesante: https://www.youtube.com/watch?v=4IuNKK2y49s
+
+**Tutorial: Configuración de un servidor DNS con BIND9 en Ubuntu**
+
+### **Paso 1: Instalación de BIND9**
+
+1. **Actualizar los paquetes del sistema**:
+   Antes de instalar cualquier software, es recomendable actualizar los paquetes de tu sistema.
+
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   ```
+
+2. **Instalar BIND9**:
+   BIND9 es el software de servidor DNS más común en sistemas Linux. Para instalarlo, ejecuta el siguiente comando:
+
+   ```bash
+   sudo apt install bind9 bind9utils bind9-doc dnsutils -y
+   ```
+
+   - `bind9` es el servidor DNS.
+   - `bind9utils` contiene herramientas adicionales.
+   - `bind9-doc` proporciona la documentación (opcional).
+   - `dnsutils` incluye herramientas para probar la configuración (como `dig`).
+
+3. **Habilitar e iniciar el servicio BIND9**:
+   Una vez que la instalación esté completa, asegúrate de que el servicio esté habilitado e iniciado.
+
+   ```bash
+   sudo systemctl enable bind9
+   sudo systemctl start bind9
+   ```
+
+4. **Verificar el estado del servicio**:
+   Para verificar que BIND9 esté funcionando correctamente, usa el siguiente comando:
+
+   ```bash
+   sudo systemctl status bind9
+   ```
+
+   Debes ver algo como `Active: active (running)`.
+
+### **Paso 2: Configuración básica de BIND9**
+
+BIND9 se configura mediante archivos de configuración ubicados en el directorio `/etc/bind/`. Los archivos principales que debes editar son:
+
+- `/etc/bind/named.conf` (configuración principal)
+- `/etc/bind/named.conf.local` (configuración local)
+- `/etc/bind/named.conf.options` (opciones globales)
+- Archivos de zona (por ejemplo, `/etc/bind/db.example.com`)
+
+#### 2.1 Configuración del archivo `/etc/bind/named.conf.local`
+
+Este archivo se utiliza para definir las zonas de tu servidor DNS.
+
+1. Abre el archivo para editarlo:
+
+   ```bash
+   sudo nano /etc/bind/named.conf.local
+   ```
+
+2. Agrega la configuración de una zona. A continuación se muestra un ejemplo de una zona llamada `example.com`:
+
+   ```bash
+   zone "example.com" {
+       type master;
+       file "/etc/bind/db.example.com";
+   };
+   ```
+
+   - `type master;` indica que este servidor es el principal para la zona.
+   - `file "/etc/bind/db.example.com";` especifica el archivo que contiene los registros de la zona.
+
+#### 2.2 Crear el archivo de zona
+
+Ahora necesitamos crear el archivo que contiene los registros DNS de la zona `example.com`.
+
+1. Copia un archivo de zona predeterminado para crear el nuevo archivo de zona:
+
+   ```bash
+   sudo cp /etc/bind/db.local /etc/bind/db.example.com
+   ```
+
+2. Abre el archivo `/etc/bind/db.example.com` para editarlo:
+
+   ```bash
+   sudo nano /etc/bind/db.example.com
+   ```
+
+3. Modifica el archivo para adaptarlo a tus necesidades. Aquí tienes un ejemplo básico de un archivo de zona para `example.com`:
+
+   ```txt
+   $TTL    604800
+   @       IN      SOA     ns1.example.com. admin.example.com. (
+                         2023111801 ; Serial
+                         604800     ; Refresh
+                         86400      ; Retry
+                         2419200    ; Expire
+                         604800 )   ; Negative Cache TTL
+
+           IN      NS      ns1.example.com.
+           IN      NS      ns2.example.com.
+
+   ns1     IN      A       192.168.1.10
+   ns2     IN      A       192.168.1.11
+   @       IN      A       192.168.1.20
+   www     IN      A       192.168.1.20
+   mail    IN      A       192.168.1.30
+   @       IN      MX      10 mail.example.com.
+   ```
+
+   - `SOA` (Start of Authority) es el registro principal de la zona.
+   - `NS` son los servidores de nombres (Name Servers) para tu dominio.
+   - `A` son los registros de direcciones IPv4.
+   - `MX` es el registro de correo.
+
+4. Guarda y cierra el archivo.
+
+#### 2.3 Configuración de las opciones globales (`named.conf.options`)
+
+El archivo `named.conf.options` se usa para configurar las opciones globales del servidor DNS, como el reenvío de consultas.
+
+1. Abre el archivo de configuración:
+
+   ```bash
+   sudo nano /etc/bind/named.conf.options
+   ```
+
+2. Asegúrate de que la configuración de reenvío esté habilitada si deseas que tu servidor reenvíe consultas a otros servidores DNS. Aquí hay un ejemplo básico de configuración:
+
+   ```txt
+   options {
+       directory "/var/cache/bind";
+
+       recursion yes;
+       allow-query { any; };
+       forwarders {
+           8.8.8.8;
+           8.8.4.4;
+       };
+
+       auth-nxdomain no;
+       listen-on { any; };
+   };
+   ```
+
+   - `recursion yes;` habilita la recursividad.
+   - `allow-query { any; };` permite consultas desde cualquier IP.
+   - `forwarders` define los servidores DNS a los que se reenviarán las consultas que el servidor no pueda resolver de manera recursiva. (En este caso, Google DNS).
+   - `listen-on { any; };` indica que el servidor escuchará en todas las interfaces de red.
+
+3. Guarda y cierra el archivo.
+
+### **Paso 3: Verificación de la configuración**
+
+1. **Reiniciar BIND9**:
+   
+   Después de realizar los cambios, es necesario reiniciar el servicio de BIND9 para que se apliquen las configuraciones.
+
+   ```bash
+   sudo systemctl restart bind9
+   ```
+
+2. **Verificar la configuración**:
+
+   Puedes usar las herramientas `named-checkconf` y `named-checkzone` para verificar la configuración de BIND9:
+
+   - Verificar el archivo de configuración principal (`named.conf`):
+
+     ```bash
+     sudo named-checkconf
+     ```
+
+   - Verificar el archivo de zona (`db.example.com`):
+
+     ```bash
+     sudo named-checkzone example.com /etc/bind/db.example.com
+     ```
+
+   Si todo está bien configurado, no debería haber salida (solo retornará al prompt).
+
+3. **Probar la resolución DNS**:
+
+   Usa la herramienta `dig` para probar la resolución DNS de tu servidor:
+
+   ```bash
+   dig @localhost example.com
+   ```
+
+   Este comando debe devolver la dirección IP que configuraste para `example.com` en el archivo de zona.
+
+### **Paso 4: Configuración de cortafuegos (opcional)**
+
+Si tienes un firewall activo, asegúrate de permitir el tráfico en el puerto 53 (UDP y TCP) para que tu servidor DNS pueda recibir consultas.
+
+1. Permitir tráfico DNS en el firewall:
+
+   ```bash
+   sudo ufw allow 53
+   ```
+
+2. Verificar las reglas del firewall:
+
+   ```bash
+   sudo ufw status
+   ```
+
+### **Conclusión**
+
+Con estos pasos, has configurado un servidor DNS básico con BIND9 en Ubuntu. Ahora puedes gestionar tus propias zonas DNS y personalizar la configuración según tus necesidades. BIND9 es altamente configurable y te permite crear servidores DNS muy sofisticados, por lo que puedes explorar más opciones según vayas necesitando.
+
+¡Espero que este tutorial te haya sido útil! Si tienes alguna duda, no dudes en preguntar.
