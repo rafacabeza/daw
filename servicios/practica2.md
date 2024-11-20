@@ -12,7 +12,15 @@ Servicio de DNS
 
 - Toma el fichero markdown del repositorio del profesor y añádelo a tu repositorio de prácticas
 - Añade los comentarios y fotos que expliquen y justifiquen tu trabajo.
-- Sube tu trabajo al repositorio GitHub. Sólo se tendrán en cuenta los cambios guardados antes de la fecha de entrega.
+- Vamos aprovechar esta práctica para aprender a añadir etiquetas en git:
+  - https://git-scm.com/book/es/v2/Fundamentos-de-Git-Etiquetado
+  - Definie una etiqueta P1 asocida al commit con el que terminas tu trabajo. Puedes hacerlo de una de estas maneras:
+    - `git tag -a P2 <hash del commit>`
+    - `git tag -a P2 -m 'Práctica 2 acabada'`
+  - Sube tu trabajo y la etiqueta:
+    - `git push origin P2`  //para subir la etiqueta
+    - `git push origin --tags` //para subir todas las etiquetas
+- Respeta la fecha de entrega.
 
 ### Herramientas de diagnóstico
 
