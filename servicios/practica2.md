@@ -1,4 +1,4 @@
-Práctica 2. DNS
+# Práctica 2. DNS
 
 Servicio de DNS
 
