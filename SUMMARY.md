@@ -12,6 +12,7 @@
 * [Arquitectura Web](arquitecturaweb/README.md)
 * [Servicios de red](servicios/README.md)
   * [Practica 1](servicios/practica1.md)
+  * [Practica 2](servicios/practica2.md)
 * [Servidores web](servidorweb/README.md)
 * [Servidores de aplicaciones](serivdoraplicaciones/README.md)
 * [Contenedores](contenedores/README.md)

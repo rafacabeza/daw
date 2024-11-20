@@ -711,8 +711,10 @@ Esto muestra cada paso del proceso de resolución DNS, comenzando desde el servi
 ### Configurar servicio DNS en Linux: Bind9
 
 Vídeo interesante: https://www.youtube.com/watch?v=4IuNKK2y49s
+Tutorial completo: https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-18-04-es
+Documentación completa (Red Hat):https://legacy.redhat.com/pub/redhat/linux/9/en/doc/RH-DOCS/rhl-rg-es-9/ch-bind.html
 
-**Tutorial: Configuración de un servidor DNS con BIND9 en Ubuntu**
+**Configuración básica de un servidor DNS con BIND9 en Ubuntu**
 
 ### **Paso 1: Instalación de BIND9**
 
@@ -752,7 +754,7 @@ Vídeo interesante: https://www.youtube.com/watch?v=4IuNKK2y49s
 
    Debes ver algo como `Active: active (running)`.
 
-### **Paso 2: Configuración básica de BIND9**
+### **Paso 2: Configuración básica de una zona (dominio) en BIND9**
 
 BIND9 se configura mediante archivos de configuración ubicados en el directorio `/etc/bind/`. Los archivos principales que debes editar son:
 
@@ -907,19 +909,11 @@ El archivo `named.conf.options` se usa para configurar las opciones globales del
 
    Este comando debe devolver la dirección IP que configuraste para `example.com` en el archivo de zona.
 
-### **Paso 4: Configuración de cortafuegos (opcional)**
 
-Si tienes un firewall activo, asegúrate de permitir el tráfico en el puerto 53 (UDP y TCP) para que tu servidor DNS pueda recibir consultas.
+### **Pasos extra**
 
-1. Permitir tráfico DNS en el firewall:
+No vamos a extender más esta guía pero sería interesante:
 
-   ```bash
-   sudo ufw allow 53
-   ```
-
-2. Verificar las reglas del firewall:
-
-   ```bash
-   sudo ufw status
-   ```
-
+- Definir zonas de resolución inversa (que dando la IP nos dé el nombre de dominio).
+- Definir servidores esclavos. El que hemos definido es maestro.
+- En los enlaces que hay al principio de este  tutorial de configuración encontrás cóomo hacer esto.

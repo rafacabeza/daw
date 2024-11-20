@@ -8,18 +8,24 @@ Servicio de DNS
 - Conocer los distintos registros asocidados a un dominio DNS.
 - Conocer cómo suplantar el DNS de forma local.
 
+## Qué entregar
+
+- Toma el fichero markdown del repositorio del profesor y añádelo a tu repositorio de prácticas
+- Añade los comentarios y fotos que expliquen y justifiquen tu trabajo.
+- Sube tu trabajo al repositorio GitHub. Sólo se tendrán en cuenta los cambios guardados antes de la fecha de entrega.
+
 ### Herramientas de diagnóstico
 
-- Toma un dominio público: 
-  1. github.com
-  2. gitlab.com
-  3. bitbucket.com
+- Toma un dominio público de acuerdo a tu número de alumno:
+  1. gitlab.com
+  2. bitbucket.com
+  3. android.com
   4. trello.com
   5. atlassian.com
-  6. x.com
+  6. ibercaja.es
   7. facebook.com
   8. twiter.com
-  9. facbook.com
+  9. bbva.es
   10. instagram.com
   11. wikipedia.com
   12. elpais.com
@@ -47,4 +53,19 @@ Servicio de DNS
 - Configura el dominio `miapellido.edu` en bind9. Debes hacerlo:
   - En el servidor linux
   - Conectándote al mismo mediante SSH
+  - Utiliza las direcciones IP de tu red privada (192.168.1xx.0/24)
+  - Deberás usar un fichero con un nombre similar a este: *db.miapellido.edu*
 - Debes definir:
+  - Número de versión 1
+  - Un correo de administrador dentro del dominio.
+  - Dos registros MX.
+  - Dos registros NS con máquinas del propio dominio (por ejemplo *dns1* y *dns2*).
+  - Varios registros A, al menos: *www, dns1, dns2*
+  - Un registro CNAME asociado a la misma dirección que *www*
+- Para comprobar que tu configuración es correcta debes:
+  - Usar el comando de verificación sintáctica.
+  - Reiniciar el servicio
+  - Probar la resolución usando nslookup y dig. Ojo, la resolución de nombres debe correr a cargo del servidor Ubuntu.
+- Trabajo extra. Para mejorar tu calificación se te propone:
+  - Añadir una zona de resolución inversa
+  - Instalar Bind9 en el cliente Ubuntu y definirlo como DNS esclavo del primero.
