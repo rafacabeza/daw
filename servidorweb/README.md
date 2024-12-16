@@ -193,3 +193,194 @@ Por defecto, los registros se encuentran en `/var/log/apache2/` en sistemas basa
     ```apache
     Protocols h2 http/1.1
     ```
+
+
+### Instalación y configuración de Nginx
+
+#### 1. **Instalar Nginx**
+
+Instalación en Debian y Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install nginx
+```
+
+#### 2. **Iniciar y habilitar Nginx**
+
+Después de la instalación, debes iniciar el servicio Nginx y asegurarte de que se inicie automáticamente en el arranque del sistema:
+
+```bash
+sudo systemctl start nginx
+sudo systemctl enable nginx
+```
+
+#### 3. **Verificar que Nginx está corriendo**
+
+Para asegurarte de que Nginx está funcionando correctamente, abre un navegador web y escribe la dirección IP de tu servidor. Si todo está bien, deberías ver la página predeterminada de Nginx que dice "Welcome to nginx!".
+
+También puedes verificar el estado de Nginx con el siguiente comando:
+
+```bash
+sudo systemctl status nginx
+```
+
+#### 4. **Configuración básica de Nginx**
+
+El archivo de configuración principal de Nginx se encuentra en `/etc/nginx/nginx.conf`, pero lo más común es trabajar con la configuración de los bloques de servidor (server blocks), que funcionan como los **virtual hosts** en Apache.
+
+Los archivos de configuración de los bloques de servidor se encuentran dentro de la carpeta `/etc/nginx/sites-available/` y `/etc/nginx/sites-enabled/`.
+
+##### Crear un nuevo sitio web
+
+1. **Crear un archivo de configuración para tu sitio web** en el directorio `sites-available`:
+
+```bash
+sudo nano /etc/nginx/sites-available/mi_sitio
+```
+
+2. **Configurar el bloque de servidor** con algo básico como el siguiente ejemplo:
+
+```nginx
+server {
+    listen 80;  # Escuchar en el puerto 80 (HTTP)
+    server_name  mi_sitio.com www.mi_sitio.com;  # Nombre de dominio
+
+    root /var/www/mi_sitio;  # Ruta del sitio web
+    index index.html index.htm;  # Archivos predeterminados
+
+    location / {
+        try_files $uri $uri/ =404;  # Manejo de errores 404
+    }
+
+    access_log /var/log/nginx/mi_sitio_access.log;  # Log de acceso
+    error_log /var/log/nginx/mi_sitio_error.log;    # Log de errores
+}
+```
+
+3. **Crear un enlace simbólico** en `sites-enabled` para activar la configuración:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/mi_sitio /etc/nginx/sites-enabled/
+```
+
+4. **Verificar la configuración de Nginx** para asegurarte de que no hay errores de sintaxis:
+
+```bash
+sudo nginx -t
+```
+
+Si todo está correcto, deberías ver un mensaje que diga que la configuración es exitosa.
+
+#### 5. **Crear la carpeta del sitio web**
+
+Asegúrate de que la carpeta `mi_sitio` exista y tenga los archivos que deseas servir, por ejemplo, un archivo `index.html`:
+
+```bash
+sudo mkdir -p /var/www/mi_sitio
+echo "¡Hola, mundo!" | sudo tee /var/www/mi_sitio/index.html
+```
+
+#### 6. **Reiniciar Nginx para aplicar la configuración**
+
+Finalmente, reinicia Nginx para aplicar los cambios:
+
+```bash
+sudo systemctl restart nginx
+```
+
+#### 7. **Verificar en el navegador**
+
+Abre tu navegador y escribe la dirección de tu servidor (por ejemplo, `http://mi_sitio.com`) o la dirección IP del servidor. Deberías ver la página "¡Hola, mundo!" que acabas de crear.
+
+#### 8. **Configuración básica de Nginx**
+
+Configurar un **proxy inverso** con **Nginx** implica configurar Nginx para que actúe como un intermediario entre el cliente (usuario) y uno o varios servidores de backend. El cliente se conecta a Nginx, y Nginx redirige las solicitudes a los servidores de backend según sea necesario. Este tipo de configuración es comúnmente usado para distribuir la carga de trabajo, mejorar la seguridad y ocultar la infraestructura interna.
+
+##### Pasos para configurar un proxy inverso con Nginx
+
+1. **Configurar el archivo de configuración de Nginx**
+
+   El archivo de configuración principal de Nginx suele encontrarse en `/etc/nginx/nginx.conf` o en archivos dentro de `/etc/nginx/sites-available/` (si usas una estructura de servidor).
+
+   Edita el archivo de configuración para definir el proxy inverso:
+
+   ```bash
+   sudo nano /etc/nginx/sites-available/default
+   ```
+
+   O en `/etc/nginx/nginx.conf` dependiendo de tu distribución.
+
+2. **Ejemplo de configuración de Proxy Inverso**
+
+   Supongamos que tienes un servidor de backend corriendo en `http://backend_server:8080` y quieres que Nginx reciba las solicitudes en el puerto 80 (HTTP) y las redirija a este backend.
+
+   La configuración sería algo así:
+
+   ```nginx
+   server {
+       listen 80;
+
+       server_name midominio.com;  # El dominio o IP de tu servidor
+
+       location / {
+           proxy_pass http://backend_server:8080;  # Dirección de tu servidor backend
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
+
+   - **proxy_pass**: Dirección del servidor de backend al que Nginx redirigirá las solicitudes.
+   - **proxy_set_header**: Estas directivas permiten que Nginx pase encabezados adicionales que ayudan al servidor backend a recibir información sobre el cliente original, como su dirección IP o el protocolo utilizado.
+
+3. **Verificar la configuración de Nginx**
+
+   Antes de reiniciar Nginx, es recomendable verificar que la configuración no tenga errores:
+
+   ```bash
+   sudo nginx -t
+   ```
+
+   Si todo está correcto, deberías ver un mensaje como:
+
+   ```
+   nginx: configuration file /etc/nginx/nginx.conf test is successful
+   ```
+
+4. **Reiniciar Nginx**
+
+   Si no hay errores, reinicia Nginx para aplicar la nueva configuración:
+
+   ```bash
+   sudo systemctl restart nginx
+   ```
+
+7. **Comprobar el funcionamiento**
+
+   Ahora, si accedes a `http://midominio.com`, Nginx debería actuar como un proxy inverso y redirigir las solicitudes al servidor backend en `http://backend_server:8080`.
+
+##### Configuración adicional
+
+- **Reparto o equilibrado de carga**: Si tienes múltiples servidores backend, puedes configurarlos en un bloque `upstream`:
+
+   ```nginx
+   upstream backend_servers {
+       server backend1.example.com:8080;
+       server backend2.example.com:8080;
+   }
+
+   server {
+       listen 80;
+
+       location / {
+           proxy_pass http://backend_servers;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
