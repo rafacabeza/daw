@@ -384,3 +384,36 @@ Configurar un **proxy inverso** con **Nginx** implica configurar Nginx para que 
        }
    }
    ```
+
+##### Otras posibilidades:
+
+- Se pueden anidar servicios web dentro de un servicio original.
+
+```nginx
+server {
+    listen 80;  # Escuchar en el puerto 80 (HTTP)
+    server_name  mi_sitio.com www.mi_sitio.com;  # Nombre de dominio
+
+    root /var/www/mi_sitio;  # Ruta del sitio web
+    index index.html index.htm;  # Archivos predeterminados
+
+    location / {
+        try_files $uri $uri/ =404;  # Manejo de errores 404
+    }
+
+    location /app1 {
+        proxy_pass http://backend_server1:8080;  # Dirección de tu servidor backend
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /app2 {
+        proxy_pass http://backend_server2:8080;  # Dirección de tu servidor backend
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    access_log /var/log/nginx/mi_sitio_access.log;  # Log de acceso
+    error_log /var/log/nginx/mi_sitio_error.log;    # Log de errores
+}
+```
