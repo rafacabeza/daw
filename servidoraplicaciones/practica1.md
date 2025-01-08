@@ -68,3 +68,28 @@ mysql> CREATE USER 'usuario'@'%' IDENTIFIED WITH mysql_native_password BY 'passw
 
 mysql> GRANT ALL ON example_database.* TO 'example_user'@'%';
 ```
+
+- A continuación cierra sesión usando `exit` y prueba la conexión con el nuevo usuario:
+
+### Instalar phpMyAdmin.
+
+- Hay que instalar el paquete y algunos complementos:
+
+```bash
+sudo apt install phpmyadmin php-mbstring php-zip php-gd php-json php-curl
+
+```
+
+- Activar el módulo `mbstring` y reiniciar apache.
+
+```bash
+sudo phpenmod mbstring
+sudo systemctl restart apache2
+```
+
+### Crea una tabla y muestra el contenido en una aplicación web.
+
+- Crea un hostvirtual y actívalo ....
+- Crea una carpeta `/var/www/web1` y descarga ahí un index de esta dirección. [https://github.com/rafacabeza/entornods/tree/master/data](https://github.com/rafacabeza/entornods/tree/master/data)
+- Carga tu base de datos con una tabla y registros de prueba. Los tienes en la misma dirección.
+
