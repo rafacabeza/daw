@@ -13,8 +13,8 @@ Configurar nuestro apache para que sirva aplicaciones web con PHP y MySql.
 ## Punto de partida
 
 - **Máquinas**. Vamos a usar máquinas definidas por el profesor mediante despliegues:
-  - Server
-  - Cliente Ubuntu
+  - Server2. (192.168.0.1)
+  - Cliente Ubuntu (Añade a la tarjeta 4 la IP 192.168.0.10)
 - Vamos a usar una pequeña aplicación web que use php y mysql.
 
 ## Configuración del Ubuntu Server
@@ -24,6 +24,14 @@ Configurar nuestro apache para que sirva aplicaciones web con PHP y MySql.
 Puedes revisar este tutorial: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04-es
 
 
+#### Instalar Apache:
+
+```bash
+sudo apt update
+sudo apt install apache2
+```
+
+
 #### Instalar MySql:
 
 ```bash
@@ -31,6 +39,7 @@ sudo apt install mysql-server
 ```
 
 **Notas sobre la autenticación en las versiones actuales de MySql:**
+
 - En versiones anteriores, en el proceso de instalación se asignaba una contraseña. Eso no ocurre actualmente.
 - Actualmente, en linux, se puede acceder como root con las credenciales del usuario root del sistema operativo.
 - También se crea un usuario especial y su contraseña. Dicho usuario está disponible en el fichero `/etc/mysql/debian.cnf`.
@@ -47,7 +56,7 @@ sudo apt install php libapache2-mod-php php-mysql
 ```bash
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
-sudo apt install php7.2
+sudo apt install phpX.Y
 ```
 
   - Podemos ver la versión instalada.
@@ -130,7 +139,14 @@ sudo systemctl restart apache2
 
 ### Crea una tabla y muestra el contenido en una aplicación web.
 
-- Crea un hostvirtual y actívalo ....
-- Crea una carpeta `/var/www/web1` y descarga ahí un index de esta dirección. [https://github.com/rafacabeza/entornods/tree/master/data](https://github.com/rafacabeza/entornods/tree/master/data)
-- Carga tu base de datos con una tabla y registros de prueba. Los tienes en la misma dirección.
-
+- Debes despleguar la aplicación web que encontrarás en [https://github.com/rafacabeza/demoappphp](https://github.com/rafacabeza/demoappphp)
+- Necesitarás:
+  - Base de datos **demo**
+  - Usuario **demo**, con contraseña **password** y con acceso a la anterior base de datos.
+  - Importar el sql que encontrarás en el repositorio de Github.
+- Coloca el código en /var/www/demo
+- Configura apache:
+  - Sitio nuevo para el virtualhost **demo** apuntando a la aplicación y     **ServerName demo.local**
+- En el cliente:
+  - Edita el fichero /etc/hosts
+  - Comprueba el funcionamiento de la aplicación
