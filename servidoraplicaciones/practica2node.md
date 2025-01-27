@@ -1,7 +1,6 @@
 # Práctica 1
 
 - Desplegar una aplicación de servidor con Node.js
-- 
 
 ## Objetivos
 
@@ -97,8 +96,7 @@ Ahora puedes probar el fichero anteriormente mostrado: `node index.js`
 
 - Vamos a desplegar una aplicación ya existente que usa Express y Mysql
 - Clona el código de esta aplicación: [https://github.com/rafacabeza/demoapinode](https://github.com/rafacabeza/demoapinode)
+- Instala las dependencias con npm: `npm install`
 - Crea una base de datos demo con el sql que hay disponible en el código.
 - Parametriza la conexión a MySql
-- Ejecuta la aplicación y prueba su funcionamiento.
-
-
+- Ejecuta la aplicación (`npm start`) y prueba su funcionamiento en el naveagora: http://192.168.0.1:3000
