@@ -52,12 +52,24 @@ sudo systemctl start docker
 sudo systemctl enable docker  # Para iniciar Docker al arrancar el sistema
 ```
 
-### **Descargar imágenes**
+### **Imágenes**
+
+#### ¿Dónde están las imágenes?
+
+- Docker Hub
+- Domandos:
+  - docker pull
+  - docker images
+  - docker rmi
+  - Etiquetas. Ver Docker Hub y en los comandos
+
 
 Ejemplo: Descargar la imagen de Ubuntu:
 
 ```bash
 docker pull ubuntu
+docker images
+docker rmi <id-imagen>
 ```
 
 ### **Ejecutar un contenedor**
@@ -101,7 +113,27 @@ docker rm <ID_del_contenedor>
 docker rmi <ID_de_la_imagen>
 ```
 
-## **4. Crear una imagen con un Dockerfile**
+### **Ver el contenido del log de un contenedor**
+
+```bash
+docker logs <id_contenedor>
+```
+
+## Redes y puertos.
+
+- Podemos vincular puertos del contenedor con el anfitrión:
+
+```bash
+docker run -d -p 8080:80 nginx
+docker run -d -p 8081:80 httpd
+```
+## Volúmenes.
+
+```bash
+docker run --rm -v /foo -v awesome:/bar busybox top
+```
+
+## **5. Crear una imagen con un Dockerfile**
  
 1. Crea un directorio de prueba: `pruebaservidor`
 2. Crea un archivo llamado `Dockerfile` dentro de él:
@@ -136,3 +168,5 @@ docker rmi <ID_de_la_imagen>
    ```bash
    docker run -d -p 8000:80 --name servidor-web2 mi-servidor-apache
    ```
+
+
