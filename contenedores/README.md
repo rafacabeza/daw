@@ -6,7 +6,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 
 ## **2 Introducción**
 
-### ¿Qué es Docker?**  
+### **¿Qué es Docker?**  
 
 Docker es una **plataforma de virtualización** que permite empaquetar, distribuir y ejecutar aplicaciones junto con todas sus dependencias en un entorno aislado llamado **contenedor**. Esto facilita la portabilidad, escalabilidad y despliegue de aplicaciones en diferentes entornos sin preocuparse por configuraciones específicas del sistema operativo o conflictos de dependencias.
 
@@ -131,7 +131,7 @@ docker ps -aq
 docker logs <id_contenedor>
 ```
 
-## Redes y puertos.
+### Puertos.
 
 - Aunque un contenedor tenga un servicio abierto, está dentro de un _sandbox_. Es un cajón de arena aislado del host anfitrión.
 - Podemos vincular puertos del contenedor con el anfitrión con la opción `-p`:
@@ -142,6 +142,15 @@ docker run -d -p 8081:80 httpd
 ```
 
 - Prueba esos comandos y accede a tu navegador web: http://localhost:8000 y http://localhost:8001
+
+### Variables de entorno.
+
+- Algunas imágenes están configuradas para recibir algunas variables de entorno en la ejecución de contenedores.
+- Puedes ver el ejemplo en Docker Hub, en Mysql. Allí puedes ver que existen variables como: MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD.
+
+```bash
+docker run -d -e MYSQL_ROOT_PASSWORD=password mysql
+```
 
 ## **5. Crear una imagen con un Dockerfile**
 
@@ -197,12 +206,27 @@ Podemos crear nuestra propias imágenes. Para hacerlo:
 
 > La opción -P usa la etiqueta EXPOSE  y en este caso equivale a `-p x:80` donde x es un puerto aleatorio
 
-## Volúmenes.
+## **6. Volúmenes.**
 
 - El contenido de un contenedor no es persistente. Si es un contenido cambiante como una base de datos, cada vez que recreemos el contenedor, sus cambios se perderán.
 - El uso de `COPY` permite incluir nuestro código en la imagen pero esa vía lo hace de forma estática. No podemos cambiarlo e ir probando. Imagina que estamos editando un sitio o aplicación web.
 - Para solucionar ambos problemas disponemos de los volúmenes.
+- Podemos crear el volumen de forma explícita en la ubicación que queramos
 
 ```bash
 docker run -d -v ./html:/var/www/html  -p 80:80 mi-servidor-apache
+docker run -d -v ./mysqldata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password mysql
 ```
+
+- O podemos dejar que lo gestione docker:
+
+```bash
+docker run -d -v mysqldata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password mysql
+#para saber dónde están ubicados los datos de mysqldata:
+docker inspect mysqldata
+docker volume inspect mysqldata
+```
+
+## **7. Docker compose.**
+
+- Variables de entorno
