@@ -33,8 +33,6 @@ docker run -d -p 8080:80 nginx
 
 Esto descarga y ejecuta un contenedor con el servidor web Nginx, accesible en `http://localhost:8080`. 🚀
 
-
-
 ### **Conceptos clave**
 
 - **Imagen**: Es una plantilla inmutable que contiene todo lo necesario para ejecutar una aplicación (código, dependencias, sistema operativo, etc.).
@@ -57,7 +55,7 @@ sudo systemctl enable docker  # Para iniciar Docker al arrancar el sistema
 #### ¿Dónde están las imágenes?
 
 - Docker Hub
-- Domandos:
+- Comandos:
   - docker pull
   - docker images
   - docker rmi
@@ -143,16 +141,45 @@ docker run -d -p 8081:80 httpd
 
 - Prueba esos comandos y accede a tu navegador web: http://localhost:8000 y http://localhost:8001
 
+### Ejecución de comandos:
+
+- Cuando un contenedor está en ejecución permite ejecutar comandos dentro del mismo:
+
+```bash
+docker exec <id-contenedor> <comando>
+#ejemplo
+docker exec mi-contenedor ls -la
+```
+
+- Además este comando puede ser interactivo con los parámetros `it`. Y el caso más típico es usar `bash` o `sh` que son los intérpretes de comandos
+
+```bash
+docker exec -i <id-contenedor> bash
+docker exec -i <id-contenedor> sh
+```
+
 ### Variables de entorno.
 
-- Algunas imágenes están configuradas para recibir algunas variables de entorno en la ejecución de contenedores.
+- Em el fichero de configuración de una imagen, en el Dockerfile, podemos usar las etiquetas `ENV` y `ARG`. Estas etiquetas definen variables de entorno que están disponibles dentro del contenedor y pueden usarse para realizar tareas en la construcción o configuración del mismo.
+- Las etiquetas `ARG` sólo en existen durante la construcción del contenedor.
+- Las etiquetas `ENV` son más habituales. Están disponibles en la ejecución del mismo.
 - Puedes ver el ejemplo en Docker Hub, en Mysql. Allí puedes ver que existen variables como: MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD.
 
 ```bash
-docker run -d -e MYSQL_ROOT_PASSWORD=password mysql
+docker run --name=mi-mysql -d -e MYSQL_ROOT_PASSWORD=password mysql
 ```
 
-## **5. Crear una imagen con un Dockerfile**
+- Puedes ver el contenido de una de estas variables accediendo a un contenedor que esté corriendo y usando echo:
+
+```bash
+docker exec -it mi-mysql sh
+echo ${MYSQL_ROOT_PASSWORD}
+```
+
+
+
+
+## 4 **Crear una imagen con un Dockerfile (ej01)**
 
 Podemos crear nuestra propias imágenes. Para hacerlo:
 
@@ -189,24 +216,31 @@ Podemos crear nuestra propias imágenes. Para hacerlo:
   CMD ["apachectl", "-D", "FOREGROUND"]
   ```
 
-1. Crea un fichero `html/index.html` con el texto "Hola Mundo"
+3. Crea un fichero `html/index.html` con el texto "Hola Mundo"
 
-2. Construye la imagen:
+4. Construye la imagen:
 
-   ```bash
-   docker build -t mi-servidor-apache .
-   ```
+  ```bash
+  docker build -t mi-servidor-apache .
+  ```
 
-3. Ejecuta la imagen:
+5. Ejecuta la imagen:
 
-   ```bash
-   docker run -d -p 8000:80 --name server1 mi-servidor-apache
-   docker run -d -P --name server2 mi-servidor-apache
-   ```
+  ```bash
+  docker run -d -p 8000:80 --name server1 mi-servidor-apache
+  ```
 
+> Esta imagen acaba montando un servicio. Si no incluimos "-d" dejaremos la consola bloqueada y posiblemente mostrnao información de la actividad de dicho servicio.
+> Otra opción menos práctica
+>   docker run -d -P --name server2 mi-servidor-apache
 > La opción -P usa la etiqueta EXPOSE  y en este caso equivale a `-p x:80` donde x es un puerto aleatorio
 
-## **6. Volúmenes.**
+6. Para reconstruir una imagen:
+   - La borramos: `docker rmi <nombre-imagen>`
+   - La volvemos a construir: `docker build -t mi-servidor-apache .`
+   - Revisa el tiempo de creación. Si quieres que sea reconstruida sin basarse en las capas que hay en caché: `docker build -t mi-servidor-apache . --no-cache`
+
+## **5. Volúmenes.**
 
 - El contenido de un contenedor no es persistente. Si es un contenido cambiante como una base de datos, cada vez que recreemos el contenedor, sus cambios se perderán.
 - El uso de `COPY` permite incluir nuestro código en la imagen pero esa vía lo hace de forma estática. No podemos cambiarlo e ir probando. Imagina que estamos editando un sitio o aplicación web.
@@ -227,6 +261,85 @@ docker inspect mysqldata
 docker volume inspect mysqldata
 ```
 
+## **6. Redes.**
+
+- Los contenedores se construyen con una tarjeta de red llamada `eth0`.
+- Si queresmos que dos contenedores se comuniquen entre sí debemos decir que están conectados a la misma red.
+- Primero debemos crear la red: `docker network create red-de-prueba`
+- Después debemos crear los contenedores conectados a dicha red: `docker run -d -p 8001:80 --network=red-de-prueba httpd`
+- Vamos a ver un ejemplo real donde dos contenedores albergan un servicio mysql y otro con apache+php.
+
+- Crear la red:
+
+```bash
+docker network create mi-red
+```
+
+- Crear la base de datos. Vamos a definir en una orden todos los parámetros: nombre del contenedor, volumen de los datos, red y las variables de entorno para la demo. Usamos la contrabarra ("\") para escribir el comando en varias líneas. 
+
+```bash
+
+docker run -d \
+  --name mi-db \
+  -e MYSQL_ROOT_PASSWORD=password \
+  -e MYSQL_DATABASE=demo \
+  -e MYSQL_USER=demo \
+  -e MYSQL_PASSWORD=demo \
+  -v ./mysql_data:/var/lib/mysql \
+  --network mi-red \
+  mysql:5.7
+```
+
+> Nota: el contenedor mysql es lento en su configuración inicial. Estará en servicio cuando el comando "docker logs <id-contenedor> muestre la versión de Mysql el puerto usado, el 3306
+
+- Construir la imagen del servidor. Vamos a usar un Apache con php. Es una imagen oficial de php pero no tiene complementos y debemos instalarle el complemento para conectarse a mysql:
+
+```docker
+# Contenido del Dockerfile
+FROM php:7.2-apache
+RUN docker-php-ext-install mysqli
+```
+
+- Construimos la imagen
+
+```bash
+docker build -t mi-servidor-apache .
+```
+
+- Correr el contenedor apache
+
+```bash
+docker run -d \
+  -p 8000:80  \
+  -v ./app:/var/www/html \
+  --network mi-red\
+  mi-servidor-apache
+```
+
 ## **7. Docker compose.**
 
-- Variables de entorno
+- Em el fichero de configuración de una imagen, en el Dockerfile, podemos usar las etiquetas `ENV` y `ARG`. Estas etiquetas definen variables de entorno que están disponibles dentro del contenedor y pueden usarse para realizar tareas en la construcción o configuración del mismo.
+- Las etiquetas `ARG` sólo en existen durante la construcción del contenedor.
+- Las etiquetas `ENV` son más habituales. Están disponibles en la ejecución del mismo.
+- Puedes ver el contenido de una de estas variables accediendo a un contenedor que esté corriendo y usando echo:
+
+```bash
+docker exec -it nombre-contenedor-mysql sh
+echo ${MYSQL_ROOT_PASSWORD}
+```
+
+- Lo importante de esto es que muchas imágenes en Docker Hub tienen sus variables de entorno y podemos ajustar su funcionalidad. 
+
+```bash
+docker run -d \
+  --name mydatabase \
+  -e MYSQL_ROOT_PASSWORD=password \
+  -e MYSQL_DATABASE=demo \
+  -e MYSQL_USER=demouser \
+  -e MYSQL_PASSWORD=demopassword \
+  -p 3306:3306 \
+  -v mysql_data:/var/lib/mysql \
+  mysql:latest
+```
+
+- Las etiquetas disponibles y su uso deben estar en la descripción de la imagen en Docker Hub
