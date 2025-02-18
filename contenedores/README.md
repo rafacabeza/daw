@@ -84,7 +84,7 @@ Para ejecutar un contenedor debemos usar `docker run`:
 docker run ubuntu
 # ejecución interactiva (-i), y con terminal (-t)
 docker run -it ubuntu
-```
+```****
 
 ### **Listar contenedores**
 
@@ -169,7 +169,6 @@ docker exec -i <id-contenedor> sh
 docker run --name=mi-mysql -d -e MYSQL_ROOT_PASSWORD=password mysql
 ```
 
-- Puedes ver el contenido de una de estas variables accediendo a un contenedor que esté corriendo y usando echo:
 
 ```bash
 docker exec -it mi-mysql sh
@@ -318,28 +317,147 @@ docker run -d \
 
 ## **7. Docker compose.**
 
-- Em el fichero de configuración de una imagen, en el Dockerfile, podemos usar las etiquetas `ENV` y `ARG`. Estas etiquetas definen variables de entorno que están disponibles dentro del contenedor y pueden usarse para realizar tareas en la construcción o configuración del mismo.
-- Las etiquetas `ARG` sólo en existen durante la construcción del contenedor.
-- Las etiquetas `ENV` son más habituales. Están disponibles en la ejecución del mismo.
-- Puedes ver el contenido de una de estas variables accediendo a un contenedor que esté corriendo y usando echo:
+### ** ¿Qué es Docker Compose?**  
 
-```bash
-docker exec -it nombre-contenedor-mysql sh
-echo ${MYSQL_ROOT_PASSWORD}
+Docker Compose es una herramienta que permite definir y ejecutar aplicaciones Docker que constan de múltiples contenedores. Usando un archivo YAML (`docker-compose.yml`), se pueden configurar los servicios, redes y volúmenes de una aplicación y desplegarlos con un solo comando.
+
+### ** Estructura del archivo `docker-compose.yml`**  
+
+El archivo `docker-compose.yml` define cómo se orquestan los contenedores.  
+
+#### **Ejemplo básico de `docker-compose.yml`**  
+```yaml
+version: "3.8"
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
 ```
 
-- Lo importante de esto es que muchas imágenes en Docker Hub tienen sus variables de entorno y podemos ajustar su funcionalidad. 
+#### **Secciones principales del archivo**  
 
-```bash
-docker run -d \
-  --name mydatabase \
-  -e MYSQL_ROOT_PASSWORD=password \
-  -e MYSQL_DATABASE=demo \
-  -e MYSQL_USER=demouser \
-  -e MYSQL_PASSWORD=demopassword \
-  -p 3306:3306 \
-  -v mysql_data:/var/lib/mysql \
-  mysql:latest
+- `version`: Define la versión de Docker Compose (obsoleta a día de hoy).  
+- `services`: Lista los contenedores de la aplicación.  
+- `volumes`: Define volúmenes persistentes.  
+- `networks`: Configura redes personalizadas.  
+- `configs` y `secrets`: Gestionan configuración y credenciales sensibles.
+
+
+### **Elementos dentro de `services`**  
+
+Dentro de `services`, cada contenedor puede tener múltiples opciones. Aquí tienes una lista completa:
+
+#### **Configuración básica**
+
+- `image`: Imagen a usar, por ejemplo, `nginx:latest`.
+- `container_name`: Nombre personalizado del contenedor.
+- `hostname`: Define un hostname para el contenedor (visible sólo desde dentro del mismo).
+- `command`: Sobrescribe el comando por defecto de la imagen.
+- `entrypoint`: Define un punto de entrada personalizado.
+
+#### **Redes y conectividad**
+
+- `ports`: Expone puertos en formato `"host:contenedor"`, ej. `"8080:80"`.
+- `networks`: Define en qué redes estará el contenedor.
+- `depends_on`: Indica dependencia de otros servicios.
+- `links`: Conecta contenedores dentro de una red de Docker (obsoleto en favor de `networks`).
+
+#### **Almacenamiento y volúmenes**
+
+- `volumes`: Monta volúmenes en el contenedor.
+- `tmpfs`: Usa almacenamiento en memoria.
+- `configs`: Monta archivos de configuración gestionados por Docker.
+- `secrets`: Monta secretos de forma segura.
+
+#### **Variables de entorno**
+
+- `environment`: Lista de variables en formato clave-valor.
+- `env_file`: Carga variables desde un archivo `.env`.
+
+#### **Recursos y limitaciones**
+
+- `deploy`: Define configuración avanzada de despliegue (solo para Swarm).
+- `restart`: Política de reinicio (`always`, `unless-stopped`, `on-failure`, `no`).
+- `cpu_shares`, `mem_limit`: Controla recursos asignados.
+
+#### **Ejemplo completo**
+
+```yaml
+version: "3.8"
+services:
+  app:
+    image: node:18
+    container_name: mi_app
+    command: ["node", "server.js"]
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:8
+    container_name: mi_db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: mydb
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db_data:
 ```
 
-- Las etiquetas disponibles y su uso deben estar en la descripción de la imagen en Docker Hub
+### **Comandos útiles de Docker Compose**  
+
+#### **Arrancar y detener servicios**
+
+```bash
+docker compose up        # Inicia en primer plano
+docker compose up -d     # Inicia en segundo plano
+docker compose down      # Detiene y elimina contenedores
+docker compose restart   # Reinicia los contenedores
+```
+
+#### **Administrar contenedores**
+
+```bash
+docker compose ps        # Lista los contenedores en ejecución
+docker compose logs      # Muestra los logs
+docker compose logs -f   # Sigue los logs en tiempo real
+```
+
+#### **Ejecutar comandos en un servicio**
+
+```bash
+docker compose exec app bash   # Accede al contenedor
+docker compose exec app ls     # Ejecuta un comando dentro
+```
+
+#### **Gestionar volúmenes y redes**
+
+```bash
+docker compose volume ls    # Lista volúmenes
+docker compose network ls   # Lista redes
+```
