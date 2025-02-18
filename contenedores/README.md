@@ -461,3 +461,10 @@ docker compose exec app ls     # Ejecuta un comando dentro
 docker compose volume ls    # Lista volúmenes
 docker compose network ls   # Lista redes
 ```
+
+
+### Ejemplos de entornos de desarrollo:
+
+- https://github.com/rafacabeza/demoappphp
+- https://github.com/rafacabeza/demoapinode
+- https://github.com/rafacabeza/entornods
