@@ -7,7 +7,8 @@
 
 ## Demoappphp
 
-- Despliega la aplicación demoapphp en la plataforma Railway. Haz login con github.
+- Despliega la aplicación demoapphp en la plataforma Railway.
+- Necesitaras que el código esté en tu espacio GitHub. Debes hacer un **fork** del repositorio del profesor.
 - Busca en internet cómo hacerlo y documentalo.
 
 ## Laravel
